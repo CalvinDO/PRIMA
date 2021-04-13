@@ -1,50 +1,42 @@
 namespace SpaceInvaders {
     import ƒ = FudgeCore;
-    export class Barrier extends ƒ.Node {
+    export class Barrier extends Rigidbody {
 
         private resolution: number;
-        private offset: number = 4.5;
-        private size: number = 0.14;
+        private offset: number = 1;
+        private size: number = 0.07;
 
-        constructor(_position: ƒ.Vector3, _name: string, _resolution: number) {
-            super(_name);
+        constructor(_position: ƒ.Vector3, _scale: ƒ.Vector3, _name: string, _resolution: number) {
+            super(_position, _scale, _name);
 
             this.resolution = _resolution;
 
-
-            this.addComponent(new ƒ.ComponentTransform);
             this.createQuantConstillation();
 
-
-            this.mtxLocal.translation = _position;
+            //this.appendChild(this.createQuant(new ƒ.Vector3(0,1)));
         }
 
-        private createQuant(_position: ƒ.Vector3): ƒ.Node {
-            let newQuant: ƒ.Node = new ƒ.Node("Quant");
+        public createVisual(): void{
 
-            let mesh: ƒ.ComponentMesh = new ƒ.ComponentMesh(new ƒ.MeshCube(this.name));
-            newQuant.addComponent(mesh);
-            let material: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(new ƒ.Material("Color", ƒ.ShaderFlat));
-            newQuant.addComponent(material);
-            newQuant.addComponent(new ƒ.ComponentTransform());
-
+        }
+        
+        private createQuant(_position: ƒ.Vector3): Quant {
             let scaleVec: ƒ.Vector3 = ƒ.Vector3.ONE();
             scaleVec.scale(this.size);
 
-            newQuant.mtxLocal.scale(scaleVec);
-            newQuant.mtxLocal.translate(_position);
+            let newQuant: Quant = new Quant(_position, scaleVec);
 
             return newQuant;
         }
 
 
         private createQuantConstillation() {
-            for (let xIndex: number = 0; xIndex < this.resolution; xIndex++) {
-                for (let yIndex: number = 0; yIndex < this.resolution; yIndex++) {
+            for (let xIndex: number = -this.resolution; xIndex < this.resolution/2; xIndex++) {
+                for (let yIndex: number = - this.resolution; yIndex < this.resolution /2; yIndex++) {
                     let newPos: ƒ.Vector3 = new ƒ.Vector3((xIndex * this.size * 2) * this.offset,(yIndex * this.size * 2) * this.offset);
                     newPos.add(this.mtxLocal.translation);
 
-                    let newQuant: ƒ.Node = this.createQuant(newPos);
+                    let newQuant: Quant = this.createQuant(newPos);
 
                     this.appendChild(newQuant);
                 }
