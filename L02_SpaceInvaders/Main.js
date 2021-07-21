@@ -75,6 +75,8 @@ var SpaceInvaders;
             let newPos = new ƒ.Vector3(iBarrier * barrierGap, 2);
             newPos.add(startPos);
             console.log(newPos);
+            let s = "hello";
+            console.log(s[0]);
             //  let newBarrier: ƒ.Node = createCube(newPos, "Barrier" + iBarrier);
             let barrierScale = 1;
             let barrierScaleVec = ƒ.Vector3.ONE();
@@ -123,13 +125,13 @@ var SpaceInvaders;
         if (firstInvaderX < leftBorderX + invaderSpeed || lastInvaderX > -leftBorderX + invaderSpeed) {
             invaderSpeed *= -1;
         }
-        /*
-        if (invaders.getChild(invaders.nChildren - 1).mtxWorld.translation.x > -leftBorderX - invaderSpeed) {
-           
-            invaderSpeed *= -1;
-        
-        }
-        */
+    }
+    function checkCollisions() {
+        invaders.getChildren().forEach(invader => {
+            SpaceInvaders.projectiles.getChildren().forEach(projectile => {
+                invader.checkCollision(projectile.rect);
+            });
+        });
     }
     function update() {
         deltaTime = ƒ.Loop.timeFrameGame / 1000;
@@ -137,6 +139,7 @@ var SpaceInvaders;
         moveInvaders();
         manageInvaderTurn();
         calculateProjectiles();
+        checkCollisions();
         viewport.draw();
     }
 })(SpaceInvaders || (SpaceInvaders = {}));

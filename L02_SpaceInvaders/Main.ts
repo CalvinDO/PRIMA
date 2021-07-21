@@ -163,7 +163,10 @@ namespace SpaceInvaders {
 
             isShootingValid = false;
         }
+        
     }
+
+    
 
 
     function onKeyUp(_event: KeyboardEvent): void {
@@ -201,16 +204,20 @@ namespace SpaceInvaders {
         if (firstInvaderX < leftBorderX + invaderSpeed || lastInvaderX > -leftBorderX + invaderSpeed) {
             invaderSpeed *= -1;
         }
-
-
-        /*
-        if (invaders.getChild(invaders.nChildren - 1).mtxWorld.translation.x > -leftBorderX - invaderSpeed) {
-           
-            invaderSpeed *= -1;
-        
-        }
-        */
     }
+
+
+    function checkCollisions(): void {
+
+        invaders.getChildren().forEach(invader => {
+
+            projectiles.getChildren().forEach(projectile => {
+
+                (<Invader>invader).checkCollision((<Projectile>projectile).rect);
+            });
+        });
+    }
+
 
     function update(): void {
         deltaTime = ƒ.Loop.timeFrameGame / 1000;
@@ -223,6 +230,7 @@ namespace SpaceInvaders {
 
         calculateProjectiles();
 
+        checkCollisions();
 
         viewport.draw();
     }

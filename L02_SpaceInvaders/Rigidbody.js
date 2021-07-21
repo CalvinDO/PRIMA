@@ -9,6 +9,7 @@ var SpaceInvaders;
             this.addComponent(new ƒ.ComponentTransform);
             this.mtxLocal.translation = _position;
             this.mtxLocal.scale(_scale);
+            this.rect = new ƒ.Rectangle(_position.x / 2, _position.y / 2, 1 / 2, 1 / 2);
         }
         createVisual() {
             this.mesh = new ƒ.ComponentMesh(new ƒ.MeshCube(this.name));
@@ -22,7 +23,14 @@ var SpaceInvaders;
         translateX(_translation) {
             this.mtxLocal.translateX(_translation);
         }
-        checkCollision() {
+        translateY(_translation) {
+            this.mtxLocal.translateY(_translation);
+        }
+        checkCollision(_secondCollider) {
+            if (!this.rect.collides(_secondCollider)) {
+                return false;
+            }
+            return true;
         }
     }
     SpaceInvaders.Rigidbody = Rigidbody;
