@@ -3,10 +3,11 @@ var SpaceInvaders;
 (function (SpaceInvaders) {
     var ƒ = FudgeCore;
     class Barrier extends SpaceInvaders.Rigidbody {
+        resolution;
+        offset = 1;
+        size = 0.07;
         constructor(_position, _scale, _name, _resolution) {
             super(_position, _scale, _name);
-            this.offset = 1;
-            this.size = 0.07;
             this.resolution = _resolution;
             this.createQuantConstillation();
             //this.appendChild(this.createQuant(new ƒ.Vector3(0,1)));

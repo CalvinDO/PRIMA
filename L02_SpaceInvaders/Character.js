@@ -2,9 +2,9 @@
 var SpaceInvaders;
 (function (SpaceInvaders) {
     class Character extends SpaceInvaders.Rigidbody {
+        projectileSpeed = 5;
         constructor(_position, _scale) {
             super(_position, _scale, "Character");
-            this.projectileSpeed = 5;
         }
         shootProjectile() {
             SpaceInvaders.projectiles.appendChild(new SpaceInvaders.Projectile(this.mtxLocal.translation));

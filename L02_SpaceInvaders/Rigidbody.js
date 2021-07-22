@@ -3,6 +3,9 @@ var SpaceInvaders;
 (function (SpaceInvaders) {
     var ƒ = FudgeCore;
     class Rigidbody extends ƒ.Node {
+        mesh;
+        material;
+        rect;
         constructor(_position, _scale, _name) {
             super("Rigidbody");
             this.createVisual();
@@ -18,6 +21,8 @@ var SpaceInvaders;
             this.addComponent(this.material);
         }
         translate(_translation) {
+            let rb = new ƒ.ComponentRigidbody();
+            rb.gravityScale = 0;
             this.mtxLocal.translate(_translation);
         }
         translateX(_translation) {
