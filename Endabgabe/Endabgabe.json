@@ -1642,6 +1642,15 @@
       "type": "Graph"
     }
   },
+  "MeshSphere|2021-07-22T19:49:53.380Z|78060": {
+    "ƒ.MeshSphere": {
+      "idResource": "MeshSphere|2021-07-22T19:49:53.380Z|78060",
+      "name": "MeshSphere",
+      "type": "MeshSphere",
+      "sectors": 8,
+      "stacks": 8
+    }
+  },
   "Graph|2021-07-22T18:15:55.902Z|69224": {
     "ƒ.Graph": {
       "name": "MainGraphRoot",
@@ -1679,6 +1688,61 @@
       },
       "children": [
         {
+          "ƒ.Node": {
+            "name": "middlePoint",
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[0.20000000298023224, 0.20000000298023224, 0.20000000298023224]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentMesh": [
+                {
+                  "ƒ.ComponentMesh": {
+                    "idMesh": "MeshSphere|2021-07-22T19:49:53.380Z|78060",
+                    "pivot": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentMaterial": [
+                {
+                  "ƒ.ComponentMaterial": {
+                    "sortForAlpha": false,
+                    "clrPrimary": "[1, 1, 1, 1]",
+                    "clrSecondary": "[1, 1, 1, 1]",
+                    "pivot": {
+                      "translation": "[0, 0]",
+                      "rotation": 0,
+                      "scaling": "[1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    },
+                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
+        },
+        {
           "ƒ.GraphInstance": {
             "name": "DeadEnd",
             "components": {
@@ -1687,7 +1751,7 @@
                   "ƒ.ComponentTransform": {
                     "local": {
                       "translation": "[0, 0, 0]",
-                      "rotation": "[0, 180, 0]",
+                      "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
                     "Component": {
@@ -1980,61 +2044,6 @@
               }
             ],
             "idSource": "Graph|2021-07-22T17:46:11.732Z|64322"
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "middlePoint",
-            "components": {
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[0.20000000298023224, 0.20000000298023224, 0.20000000298023224]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentMesh": [
-                {
-                  "ƒ.ComponentMesh": {
-                    "idMesh": "MeshSphere|2021-07-22T19:49:53.380Z|78060",
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentMaterial": [
-                {
-                  "ƒ.ComponentMaterial": {
-                    "sortForAlpha": false,
-                    "clrPrimary": "[1, 1, 1, 1]",
-                    "clrSecondary": "[1, 1, 1, 1]",
-                    "pivot": {
-                      "translation": "[0, 0]",
-                      "rotation": 0,
-                      "scaling": "[1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
-                  }
-                }
-              ]
-            },
-            "children": []
           }
         }
       ],
@@ -4379,15 +4388,6 @@
       ],
       "idResource": "Graph|2021-07-22T19:01:52.488Z|97050",
       "type": "Graph"
-    }
-  },
-  "MeshSphere|2021-07-22T19:49:53.380Z|78060": {
-    "ƒ.MeshSphere": {
-      "idResource": "MeshSphere|2021-07-22T19:49:53.380Z|78060",
-      "name": "MeshSphere",
-      "type": "MeshSphere",
-      "sectors": 8,
-      "stacks": 8
     }
   }
 }

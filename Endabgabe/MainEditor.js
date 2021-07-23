@@ -44,6 +44,6 @@ var Endabgabe;
             viewport.draw();
             canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
         }
-    })("Graph|2021-07-22T18:15:55.902Z|69224");
+    })(Endabgabe.Main.mainGraphId);
 })(Endabgabe || (Endabgabe = {}));
 //# sourceMappingURL=MainEditor.js.map
