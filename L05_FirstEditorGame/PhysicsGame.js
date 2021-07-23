@@ -1,11 +1,11 @@
 "use strict";
 var L05_PhysicsGame;
 (function (L05_PhysicsGame) {
-    var fCore = FudgeCore;
+    var ƒ = FudgeCore;
     // import fAid = FudgeAid;
-    let audioBackground = new fCore.Audio("./music/backgroundmusic.mp3");
-    let audioGrab = new fCore.Audio("./music/grab.wav");
-    let audioShoot = new fCore.Audio("./music/shoot.wav");
+    let audioBackground = new ƒ.Audio("./music/backgroundmusic.mp3");
+    let audioGrab = new ƒ.Audio("./music/grab.wav");
+    let audioShoot = new ƒ.Audio("./music/shoot.wav");
     let rootGraph;
     let cmpAvatar;
     let cmpRigidbodyBall;
@@ -23,10 +23,10 @@ var L05_PhysicsGame;
     let distance;
     let kickStrength = 750;
     let isGrabbed;
-    let mouseMove = new fCore.Vector2();
+    let mouseMove = new ƒ.Vector2();
     let isMouseMooving;
-    let cmpAudioGrab = new fCore.ComponentAudio(audioGrab);
-    let cmpAudioShoot = new fCore.ComponentAudio(audioShoot);
+    let cmpAudioGrab = new ƒ.ComponentAudio(audioGrab);
+    let cmpAudioShoot = new ƒ.ComponentAudio(audioShoot);
     window.addEventListener("load", start);
     window.addEventListener("mousemove", onMouseMove);
     async function start(_event) {
@@ -35,31 +35,31 @@ var L05_PhysicsGame;
         FudgeCore.Debug.log("Project:", FudgeCore.Project.resources);
         // pick the graph to show
         rootGraph = FudgeCore.Project.resources["Graph|2021-04-27T14:37:42.239Z|64317"];
-        cmpCamera = new fCore.ComponentCamera();
-        cmpCamera.clrBackground = fCore.Color.CSS("DEEPSKYBLUE");
+        cmpCamera = new ƒ.ComponentCamera();
+        cmpCamera.clrBackground = ƒ.Color.CSS("DEEPSKYBLUE");
         cmpCamera.mtxPivot.translateY(1);
-        cmpCamera.mtxPivot.rotateX(10);
+        cmpCamera.mtxPivot.rotateX(0);
         createAvatar();
         createRigidbodies();
         let canvas = document.querySelector("canvas");
-        viewport = new fCore.Viewport();
+        viewport = new ƒ.Viewport();
         viewport.initialize("Viewport", rootGraph, cmpCamera, canvas);
-        fCore.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
-        fCore.Loop.start(fCore.LOOP_MODE.TIME_REAL, 60);
+        ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
+        ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 60);
     }
     function createAvatar() {
-        cmpAvatar = new fCore.ComponentRigidbody(75, fCore.PHYSICS_TYPE.DYNAMIC, fCore.COLLIDER_TYPE.CAPSULE, fCore.PHYSICS_GROUP.DEFAULT);
+        cmpAvatar = new ƒ.ComponentRigidbody(75, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CAPSULE, ƒ.PHYSICS_GROUP.DEFAULT);
         cmpAvatar.restitution = 0.5;
-        cmpAvatar.rotationInfluenceFactor = fCore.Vector3.ZERO();
+        cmpAvatar.rotationInfluenceFactor = ƒ.Vector3.ZERO();
         cmpAvatar.friction = 1;
-        avatarNode = new fCore.Node("AvatarNode");
-        avatarNode.addComponent(new fCore.ComponentTransform(fCore.Matrix4x4.TRANSLATION(fCore.Vector3.Y(3))));
+        avatarNode = new ƒ.Node("AvatarNode");
+        avatarNode.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(3))));
         avatarNode.addComponent(cmpAvatar);
         avatarNode.addComponent(cmpCamera);
-        childAvatarNode = new fCore.Node("childAvatarNode");
+        childAvatarNode = new ƒ.Node("childAvatarNode");
         avatarNode.appendChild(childAvatarNode);
-        childAvatarNode.addComponent(new fCore.ComponentTransform());
-        childAvatarNode.mtxLocal.translate(new fCore.Vector3(0, 0.75, 5));
+        childAvatarNode.addComponent(new ƒ.ComponentTransform());
+        childAvatarNode.mtxLocal.translate(new ƒ.Vector3(0, 0.75, 5));
         rootGraph.appendChild(avatarNode);
         setupAudio();
     }
@@ -67,8 +67,8 @@ var L05_PhysicsGame;
         // setup audio
         let cmpListener = new ƒ.ComponentAudioListener();
         cmpCamera.getContainer().addComponent(cmpListener);
-        let audioNode = new fCore.Node("audioNode");
-        let cmpAudioBackground = new fCore.ComponentAudio(audioBackground, true, true);
+        let audioNode = new ƒ.Node("audioNode");
+        let cmpAudioBackground = new ƒ.ComponentAudio(audioBackground, true, true);
         cmpAudioBackground.volume = 0.2;
         audioNode.addComponent(cmpAudioBackground);
         audioNode.addComponent(cmpAudioGrab);
@@ -79,104 +79,105 @@ var L05_PhysicsGame;
         console.log(FudgeCore.AudioManager.default.volume);
     }
     function update() {
-        fCore.Physics.world.simulate(fCore.Loop.timeFrameReal / 1000);
+        ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
         playerIsGroundedRaycast();
-        handleKeys(fCore.Loop.timeFrameReal / 1000);
+        handleKeys(ƒ.Loop.timeFrameReal / 1000);
         isGrabbingObjects();
-        player_Movement(fCore.Loop.timeFrameReal / 1000);
+        player_Movement(ƒ.Loop.timeFrameReal / 1000);
         viewport.draw();
-        fCore.AudioManager.default.update();
+        ƒ.AudioManager.default.update();
         if (ball == undefined)
             return;
         if (ball.mtxWorld.translation.y < 0) {
-            cmpRigidbodyBall.setVelocity(fCore.Vector3.ZERO());
-            cmpRigidbodyBall.setRotation(fCore.Vector3.ZERO());
-            cmpRigidbodyBall.setPosition(new fCore.Vector3(0, 4, 0));
-            ball.mtxWorld.translate(new fCore.Vector3(0, 4, 0));
+            cmpRigidbodyBall.setVelocity(ƒ.Vector3.ZERO());
+            cmpRigidbodyBall.setRotation(ƒ.Vector3.ZERO());
+            cmpRigidbodyBall.setPosition(new ƒ.Vector3(0, 4, 0));
+            ball.mtxWorld.translate(new ƒ.Vector3(0, 4, 0));
         }
         if (avatarNode.mtxWorld.translation.y < 0) {
-            cmpAvatar.setVelocity(fCore.Vector3.ZERO());
-            cmpAvatar.setRotation(fCore.Vector3.ZERO());
-            cmpAvatar.setPosition(new fCore.Vector3(0, 4, 0));
-            avatarNode.mtxWorld.translate(new fCore.Vector3(0, 4, 0));
+            cmpAvatar.setVelocity(ƒ.Vector3.ZERO());
+            cmpAvatar.setRotation(ƒ.Vector3.ZERO());
+            cmpAvatar.setPosition(new ƒ.Vector3(0, 4, 0));
+            avatarNode.mtxWorld.translate(new ƒ.Vector3(0, 4, 0));
         }
         if (isGrabbed) {
-            cmpRigidbodyBall.setVelocity(fCore.Vector3.ZERO());
-            cmpRigidbodyBall.setRotation(fCore.Vector3.ZERO());
+            cmpRigidbodyBall.setVelocity(ƒ.Vector3.ZERO());
+            cmpRigidbodyBall.setRotation(ƒ.Vector3.ZERO());
             cmpRigidbodyBall.setPosition(childAvatarNode.mtxWorld.translation);
             ball.mtxWorld.translate(childAvatarNode.mtxWorld.translation);
         }
         if (!isMouseMooving)
-            mouseMove = fCore.Vector2.ZERO();
+            mouseMove = ƒ.Vector2.ZERO();
         isMouseMooving = false;
     }
     function createRigidbodies() {
         let level = rootGraph.getChildrenByName("level")[0];
         for (let node of level.getChildren()) {
-            let cmpRigidbody = new fCore.ComponentRigidbody(0, fCore.PHYSICS_TYPE.STATIC, fCore.COLLIDER_TYPE.CUBE, fCore.PHYSICS_GROUP.DEFAULT);
+            let cmpRigidbody = new ƒ.ComponentRigidbody(0, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT);
             node.addComponent(cmpRigidbody);
         }
         ball = rootGraph.getChildrenByName("ball")[0];
-        cmpRigidbodyBall = new fCore.ComponentRigidbody(25, fCore.PHYSICS_TYPE.DYNAMIC, fCore.COLLIDER_TYPE.SPHERE, fCore.PHYSICS_GROUP.GROUP_2);
+        cmpRigidbodyBall = new ƒ.ComponentRigidbody(25, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.SPHERE, ƒ.PHYSICS_GROUP.GROUP_2);
         ball.addComponent(cmpRigidbodyBall);
-        fCore.Physics.adjustTransforms(rootGraph, true);
+        ƒ.Physics.adjustTransforms(rootGraph, true);
     }
     function handleKeys(_deltaTime) {
-        if (fCore.Keyboard.isPressedOne([fCore.KEYBOARD_CODE.W, fCore.KEYBOARD_CODE.ARROW_UP]))
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP]))
             forwardMovement = 1.33;
         else if (forwardMovement >= 0)
             forwardMovement -= _deltaTime * 2;
-        if (fCore.Keyboard.isPressedOne([fCore.KEYBOARD_CODE.S, fCore.KEYBOARD_CODE.ARROW_DOWN]))
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN]))
             backwardMovement = -1.33;
         else if (backwardMovement <= 0)
             backwardMovement += _deltaTime * 2;
-        if (fCore.Keyboard.isPressedOne([fCore.KEYBOARD_CODE.SPACE]))
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
             if (isGrounded)
-                cmpAvatar.applyLinearImpulse(new fCore.Vector3(0, playerJumpForce, 0));
-        if (fCore.Keyboard.isPressedOne([fCore.KEYBOARD_CODE.T]))
-            fCore.Physics.settings.debugMode = fCore.Physics.settings.debugMode == fCore.PHYSICS_DEBUGMODE.JOINTS_AND_COLLIDER ? fCore.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY : fCore.PHYSICS_DEBUGMODE.JOINTS_AND_COLLIDER;
-        if (fCore.Keyboard.isPressedOne([fCore.KEYBOARD_CODE.Y]))
-            fCore.Physics.settings.debugDraw = !fCore.Physics.settings.debugDraw;
+                cmpAvatar.applyLinearImpulse(new ƒ.Vector3(0, playerJumpForce, 0));
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.T]))
+            ƒ.Physics.settings.debugMode = ƒ.Physics.settings.debugMode == ƒ.PHYSICS_DEBUGMODE.JOINTS_AND_COLLIDER ? ƒ.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY : ƒ.PHYSICS_DEBUGMODE.JOINTS_AND_COLLIDER;
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Y]))
+            ƒ.Physics.settings.debugDraw = !ƒ.Physics.settings.debugDraw;
     }
     function player_Movement(_deltaTime) {
         let playerForward;
-        playerForward = fCore.Vector3.Z();
+        playerForward = ƒ.Vector3.Z();
         playerForward.transform(avatarNode.mtxWorld, false);
-        cmpAvatar.rotateBody(new fCore.Vector3(0, -mouseMove.x * turningspeed * _deltaTime, 0));
-        let movementVelocity = new fCore.Vector3();
+        cmpAvatar.rotateBody(new ƒ.Vector3(-mouseMove.y * turningspeed * _deltaTime, 0, 0));
+        cmpAvatar.rotateBody(new ƒ.Vector3(0, -mouseMove.x * turningspeed * _deltaTime, 0));
+        let movementVelocity = new ƒ.Vector3();
         movementVelocity.x = playerForward.x * (forwardMovement + backwardMovement) * movementspeed;
         movementVelocity.y = cmpAvatar.getVelocity().y;
         movementVelocity.z = playerForward.z * (forwardMovement + backwardMovement) * movementspeed;
         cmpAvatar.setVelocity(movementVelocity);
     }
     function onMouseMove(_event) {
-        mouseMove = new fCore.Vector2(_event.movementX, _event.movementY);
+        mouseMove = new ƒ.Vector2(_event.movementX, _event.movementY);
         isMouseMooving = true;
     }
     function isGrabbingObjects() {
         if (cmpRigidbodyBall != undefined) {
-            if (fCore.Keyboard.isPressedOne([fCore.KEYBOARD_CODE.E])) {
-                distance = fCore.Vector3.DIFFERENCE(ball.mtxWorld.translation, avatarNode.mtxWorld.translation);
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.E])) {
+                distance = ƒ.Vector3.DIFFERENCE(ball.mtxWorld.translation, avatarNode.mtxWorld.translation);
                 if (distance.magnitude > 4)
                     return;
                 cmpAudioGrab.play(true);
-                cmpRigidbodyBall.setVelocity(fCore.Vector3.ZERO());
-                cmpRigidbodyBall.setRotation(fCore.Vector3.ZERO());
+                cmpRigidbodyBall.setVelocity(ƒ.Vector3.ZERO());
+                cmpRigidbodyBall.setRotation(ƒ.Vector3.ZERO());
                 isGrabbed = true;
             }
-            if (fCore.Keyboard.isPressedOne([fCore.KEYBOARD_CODE.R]) && isGrabbed == true) {
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.R]) && isGrabbed == true) {
                 cmpAudioShoot.play(true);
                 isGrabbed = false;
                 let playerForward;
-                playerForward = fCore.Vector3.Z();
+                playerForward = ƒ.Vector3.Z();
                 playerForward.transform(avatarNode.mtxWorld, false);
-                cmpRigidbodyBall.applyImpulseAtPoint(new fCore.Vector3(playerForward.x * kickStrength, playerForward.y * 5 * kickStrength, playerForward.z * kickStrength), avatarNode.mtxWorld.translation);
+                cmpRigidbodyBall.applyImpulseAtPoint(new ƒ.Vector3(playerForward.x * kickStrength, playerForward.y * 5 * kickStrength, playerForward.z * kickStrength), avatarNode.mtxWorld.translation);
             }
         }
     }
     function playerIsGroundedRaycast() {
         let hitInfo;
-        hitInfo = fCore.Physics.raycast(cmpAvatar.getPosition(), new fCore.Vector3(0, -1, 0), 1.1);
+        hitInfo = ƒ.Physics.raycast(cmpAvatar.getPosition(), new ƒ.Vector3(0, -1, 0), 1.1);
         if (hitInfo.hit)
             isGrounded = true;
         else
