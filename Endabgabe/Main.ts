@@ -3,7 +3,7 @@ namespace Endabgabe {
 
     export class Main {
 
-        public static rootGraphId: string = "Graph|2021-07-23T14:18:52.304Z|39896";
+        public static rootGraphId: string = "Graph|2021-07-23T18:40:28.353Z|85227";
 
         public static root: ƒ.Graph;
         public static createdElements: ƒ.Node;
@@ -27,29 +27,39 @@ namespace Endabgabe {
         public static async init(): Promise<void> {
             Main.root = <ƒ.Graph>ƒ.Project.resources[Main.rootGraphId];
 
-            await ElementLoader.init();
+            //await ElementLoader.init();
+            //await ElementLoader.createElements();
+
             Main.cmpCamera = new ƒ.ComponentCamera();
 
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
 
-            await ElementLoader.createElements();
+
+          
+
+
+
+            //Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+
+            ƒ.Physics.adjustTransforms(Main.root, true);
+
+            let test: ƒ.Node = Main.root.getChildrenByName("Test")[0];
+
+            // let matrizes: ƒ.Matrix4x4[] = [];
+
+            for (let wall of Main.root.getChildren()) {
+                //matrizes.push(wall.cmpTransform.mtxLocal);
+                console.log(wall)
+                wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.KINEMATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+                //console.log(wall);
+            }
 
             Main.createAvatar();
             Main.createRigidbodies();
             Main.setupAudio();
 
-
-
-            Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-
-            let test: ƒ.Node = Main.root.getChildrenByName("LTest")[0];
-            //test.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-
-            for (let wall of test.getChildren()) {
-                //wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-                //wall.addComponent(new ƒ.ComponentTransform());
-            }
             ƒ.Physics.adjustTransforms(Main.root, true);
+
 
 
             window.addEventListener("mousemove", Main.onMouseMove);
@@ -67,8 +77,8 @@ namespace Endabgabe {
             ƒ.Debug.log("Graph:", this.root);
             ƒ.Debug.log("Viewport:", Main.viewport);
 
-            //ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY;
-            // ƒ.Physics.settings.debugDraw = true;
+            ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY;
+            ƒ.Physics.settings.debugDraw = true;
 
 
             ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, Main.update);
@@ -151,6 +161,9 @@ namespace Endabgabe {
                 this.avatarRb.setVelocity(newVelo);
             }
 
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
+                Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 30, 0));
+
         }
 
         private static playerMovement(): void {
@@ -167,6 +180,9 @@ namespace Endabgabe {
         }
 
         private static createRigidbodies() {
+            if (!Main.createdElements) {
+                return;
+            }
             for (let element of Main.createdElements.getChildren()) {
 
                 for (let wall of element.getChildren()) {

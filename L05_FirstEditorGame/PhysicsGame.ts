@@ -47,6 +47,9 @@ namespace L05_PhysicsGame {
     viewport = new ƒ.Viewport();
     viewport.initialize("Viewport", rootGraph, cmpCamera, canvas);
 
+    ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY;
+    ƒ.Physics.settings.debugDraw = true;
+    
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 60);
   }
