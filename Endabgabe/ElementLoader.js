@@ -43,27 +43,32 @@ var Endabgabe;
         static findElementByXMLID(_name) {
             let nameFirstPart = _name.split("_")[0];
             let foundElementType = this.stringToElementType(nameFirstPart);
-            return this.elementMap[foundElementType];
+            let output = this.elementMap[foundElementType];
+            output.name = nameFirstPart;
+            return output;
         }
         static async init() {
             this.fillElementMapIds();
             this.fillElementResources();
-            Endabgabe.Main.root = ƒ.Project.resources[Endabgabe.Main.rootGraphId];
+        }
+        static async createElements() {
+            Endabgabe.Main.createdElements = new ƒ.Node("CreatedElements");
             let response = await fetch("elements.dae");
             let xmlText = await response.text();
             let xml = new DOMParser().parseFromString(xmlText, "text/xml");
             let visualScene = xml.querySelector("library_visual_scenes #Scene");
-            for (let child of visualScene.children) {
-                let newElement = await ƒ.Project.createGraphInstance(this.findElementByXMLID(child.id));
-                let rotations = Array.prototype.slice.call(child.querySelectorAll("rotate"));
+            for (let positionNode of visualScene.children) {
+                let newElement = await ƒ.Project.createGraphInstance(this.findElementByXMLID(positionNode.id));
+                let rotations = Array.prototype.slice.call(positionNode.querySelectorAll("rotate"));
                 let rotNumbers = rotations.map(axis => +axis.textContent.split(" ")[3]);
                 let rotation = new ƒ.Vector3(rotNumbers[2], rotNumbers[1], rotNumbers[0]);
-                let translations = child.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
+                let translations = positionNode.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
                 let translation = new ƒ.Vector3(translations[0], translations[1], translations[2]);
                 newElement.cmpTransform.mtxLocal.translate(translation);
                 newElement.cmpTransform.mtxLocal.rotate(rotation);
-                Endabgabe.Main.root.appendChild(newElement);
+                Endabgabe.Main.createdElements.appendChild(newElement);
             }
+            Endabgabe.Main.root.appendChild(Endabgabe.Main.createdElements);
         }
     }
     Endabgabe.ElementLoader = ElementLoader;

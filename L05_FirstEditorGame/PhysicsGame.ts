@@ -53,9 +53,11 @@ namespace L05_PhysicsGame {
 
   function createAvatar(): void {
     cmpAvatar = new ƒ.ComponentRigidbody(75, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CAPSULE, ƒ.PHYSICS_GROUP.DEFAULT);
+
     cmpAvatar.restitution = 0.5;
     cmpAvatar.rotationInfluenceFactor = ƒ.Vector3.ZERO();
     cmpAvatar.friction = 1;
+
     avatarNode = new ƒ.Node("AvatarNode");
     avatarNode.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(3))));
     avatarNode.addComponent(cmpAvatar);
@@ -164,7 +166,6 @@ namespace L05_PhysicsGame {
     playerForward = ƒ.Vector3.Z();
     playerForward.transform(avatarNode.mtxWorld, false);
 
-    cmpAvatar.rotateBody(new ƒ.Vector3(-mouseMove.y * turningspeed * _deltaTime, 0, 0));
     cmpAvatar.rotateBody(new ƒ.Vector3(0, -mouseMove.x * turningspeed * _deltaTime, 0));
 
     let movementVelocity: ƒ.Vector3 = new ƒ.Vector3();

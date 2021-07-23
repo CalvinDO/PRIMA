@@ -142,7 +142,6 @@ var L05_PhysicsGame;
         let playerForward;
         playerForward = ƒ.Vector3.Z();
         playerForward.transform(avatarNode.mtxWorld, false);
-        cmpAvatar.rotateBody(new ƒ.Vector3(-mouseMove.y * turningspeed * _deltaTime, 0, 0));
         cmpAvatar.rotateBody(new ƒ.Vector3(0, -mouseMove.x * turningspeed * _deltaTime, 0));
         let movementVelocity = new ƒ.Vector3();
         movementVelocity.x = playerForward.x * (forwardMovement + backwardMovement) * movementspeed;

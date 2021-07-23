@@ -58,16 +58,18 @@ namespace Endabgabe {
             let nameFirstPart: string = _name.split("_")[0];
 
             let foundElementType: ElementType = this.stringToElementType(nameFirstPart);
-            return this.elementMap[foundElementType];
+            let output: ƒ.Graph = this.elementMap[foundElementType];
+            output.name = nameFirstPart;
+            return output;
         }
 
         public static async init(): Promise<void> {
             this.fillElementMapIds();
             this.fillElementResources();
+        }
 
-            Main.root = <ƒ.Graph>ƒ.Project.resources[Main.rootGraphId];
-
-
+        public static async createElements() {
+            Main.createdElements = new ƒ.Node("CreatedElements");
 
             let response: Response = await fetch("elements.dae");
             let xmlText: string = await response.text();
@@ -75,22 +77,26 @@ namespace Endabgabe {
             let xml: XMLDocument = new DOMParser().parseFromString(xmlText, "text/xml");
             let visualScene: ParentNode = <ParentNode>xml.querySelector("library_visual_scenes #Scene");
 
+            for (let positionNode of visualScene.children) {
+                let newElement: ƒ.GraphInstance = await ƒ.Project.createGraphInstance(this.findElementByXMLID(positionNode.id));
 
-            for (let child of visualScene.children) {
-                let newElement: ƒ.GraphInstance = await ƒ.Project.createGraphInstance(this.findElementByXMLID(child.id));
 
-                let rotations: Node[] = Array.prototype.slice.call(child.querySelectorAll("rotate"));
+
+                let rotations: Node[] = Array.prototype.slice.call(positionNode.querySelectorAll("rotate"));
                 let rotNumbers: number[] = rotations.map(axis => +axis.textContent.split(" ")[3]);
                 let rotation: ƒ.Vector3 = new ƒ.Vector3(rotNumbers[2], rotNumbers[1], rotNumbers[0]);
 
-                let translations: number[] = child.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
+                let translations: number[] = positionNode.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
                 let translation: ƒ.Vector3 = new ƒ.Vector3(translations[0], translations[1], translations[2]);
 
 
                 newElement.cmpTransform.mtxLocal.translate(translation);
                 newElement.cmpTransform.mtxLocal.rotate(rotation);
-                Main.root.appendChild(newElement);
+
+                Main.createdElements.appendChild(newElement);
             }
+
+            Main.root.appendChild(Main.createdElements);
         }
     }
 }

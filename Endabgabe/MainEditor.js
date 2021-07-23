@@ -15,34 +15,16 @@ var Endabgabe;
         }
         // setup and start interactive viewport
         async function startInteractiveViewport() {
-            // load resources referenced in the link-tag
             await ƒ.Project.loadResourcesFromHTML();
             ƒ.Debug.log("Project:", ƒ.Project.resources);
-            await Endabgabe.Main.init();
-            // pick the graph to show
-            console.log("graphID: ", _graphId);
-            let graph = ƒ.Project.resources[_graphId];
-            ƒ.Debug.log("Graph:", graph);
             // setup the viewport
-            let cmpCamera = new ƒ.ComponentCamera();
-            let canvas = document.querySelector("canvas");
-            let viewport = new ƒ.Viewport();
-            viewport.initialize("InteractiveViewport", graph, cmpCamera, canvas);
-            ƒ.Debug.log("Viewport:", viewport);
-            // hide the cursor when interacting, also suppressing right-click menu
-            canvas.addEventListener("mousedown", canvas.requestPointerLock);
-            canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
+            await Endabgabe.Main.init();
             // make the camera interactive (complex method in FudgeAid)
-            FudgeAid.Viewport.expandCameraToInteractiveOrbit(viewport);
+            //FudgeAid.Viewport.expandCameraToInteractiveOrbit(viewport);
             // setup audio
-            let cmpListener = new ƒ.ComponentAudioListener();
-            cmpCamera.getContainer().addComponent(cmpListener);
-            ƒ.AudioManager.default.listenWith(cmpListener);
-            ƒ.AudioManager.default.listenTo(graph);
-            ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
             // draw viewport once for immediate feedback
-            viewport.draw();
-            canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
+            //viewport.draw();
+            //canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
         }
     })(Endabgabe.Main.rootGraphId);
 })(Endabgabe || (Endabgabe = {}));
