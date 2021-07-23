@@ -46,7 +46,8 @@ namespace Endabgabe {
             //test.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
 
             for (let wall of test.getChildren()) {
-                wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+                //wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+                //wall.addComponent(new ƒ.ComponentTransform());
             }
             ƒ.Physics.adjustTransforms(Main.root, true);
 
@@ -198,6 +199,7 @@ namespace Endabgabe {
             Main.avatar.addComponent(Main.avatarRb);
             Main.avatar.addComponent(Main.cmpCamera);
 
+            Main.avatar.mtxLocal.translateX(2);
 
             Main.root.appendChild(Main.avatar);
         }
