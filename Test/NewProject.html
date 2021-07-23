@@ -11,6 +11,8 @@
     </script>
     <script type="text/javascript" src="../FudgeCore/FudgeAid.js">
     </script>
+
+    <script src="Main.js"></script>
     <!--Link stylesheet and internal resources-->
     <link rel="stylesheet" href="NewProject.css" />
     <link type="resources" src="NewProject.json" />
@@ -42,6 +44,7 @@
                 let cmpCamera = new FudgeCore.ComponentCamera();
                 let canvas = document.querySelector("canvas");
                 let viewport = new FudgeCore.Viewport();
+
                 viewport.initialize("InteractiveViewport", graph, cmpCamera, canvas);
                 FudgeCore.Debug.log("Viewport:", viewport);
                 // hide the cursor when interacting, also suppressing right-click menu
@@ -50,12 +53,29 @@
                 // make the camera interactive (complex method in FudgeAid)
                 FudgeAid.Viewport.expandCameraToInteractiveOrbit(viewport);
                 // setup audio
-                let cmpListener = new ƒ.ComponentAudioListener();
+                let cmpListener = new FudgeCore.ComponentAudioListener();
                 cmpCamera.getContainer().addComponent(cmpListener);
                 FudgeCore.AudioManager.default.listenWith(cmpListener);
                 FudgeCore.AudioManager.default.listenTo(graph);
                 FudgeCore.Debug.log("Audio:", FudgeCore.AudioManager.default);
                 // draw viewport once for immediate feedback
+
+                let rootGraphId = "Graph|2021-07-23T18:57:00.981Z|47267";
+
+                let root = FudgeCore.Project.resources[rootGraphId];
+
+                for (let node of root.getChildren()) {
+                    node.addComponent(new FudgeCore.ComponentRigidbody(10, FudgeCore.PHYSICS_TYPE.KINEMATIC, FudgeCore.COLLIDER_TYPE.CUBE, FudgeCore.PHYSICS_GROUP.DEFAULT));
+                    console.log(node.name);
+                }
+
+                FudgeCore.Physics.adjustTransforms(root, true);
+
+                FudgeCore.Physics.settings.debugMode = FudgeCore.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY;
+                FudgeCore.Physics.settings.debugDraw = true;
+
+               
+
                 viewport.draw();
                 canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
             }

@@ -2,21 +2,9 @@
 var Endabgabe;
 (function (Endabgabe) {
     (function (_graphId) {
-        window.addEventListener("load", init);
-        // show dialog for startup
-        let dialog;
-        function init(_event) {
-            dialog = document.querySelector("dialog");
-            dialog.addEventListener("click", function (_event) {
-                dialog.close();
-                startInteractiveViewport();
-            });
-            dialog.showModal();
-        }
+        window.addEventListener("load", startInteractiveViewport);
         // setup and start interactive viewport
         async function startInteractiveViewport() {
-            await ƒ.Project.loadResourcesFromHTML();
-            ƒ.Debug.log("Project:", ƒ.Project.resources);
             // setup the viewport
             await Endabgabe.Main.init();
             // make the camera interactive (complex method in FudgeAid)

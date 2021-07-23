@@ -1,8 +1,6 @@
 namespace Endabgabe {
 
-
     export class Main {
-
         public static rootGraphId: string = "Graph|2021-07-23T18:40:28.353Z|85227";
 
         public static root: ƒ.Graph;
@@ -23,8 +21,14 @@ namespace Endabgabe {
         public static acceleration: number = 0.4;
         public static drag: number = 0.1;
 
+        public static preInit(): void {
+            Main.init();
+        }
 
         public static async init(): Promise<void> {
+            await ƒ.Project.loadResourcesFromHTML();
+            ƒ.Debug.log("Project:", ƒ.Project.resources);
+
             Main.root = <ƒ.Graph>ƒ.Project.resources[Main.rootGraphId];
 
             //await ElementLoader.init();
@@ -35,13 +39,9 @@ namespace Endabgabe {
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
 
 
-          
-
-
-
             //Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
 
-            ƒ.Physics.adjustTransforms(Main.root, true);
+            //ƒ.Physics.adjustTransforms(Main.root, true);
 
             let test: ƒ.Node = Main.root.getChildrenByName("Test")[0];
 
@@ -67,14 +67,14 @@ namespace Endabgabe {
 
             let canvas = document.querySelector("canvas");
             Main.viewport = new ƒ.Viewport();
-            Main.viewport.initialize("InteractiveViewport", this.root, Main.cmpCamera, canvas);
+            Main.viewport.initialize("InteractiveViewport", Main.root, Main.cmpCamera, canvas);
 
             canvas.addEventListener("mousedown", canvas.requestPointerLock);
             canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
 
 
 
-            ƒ.Debug.log("Graph:", this.root);
+            ƒ.Debug.log("Graph:", Main.root);
             ƒ.Debug.log("Viewport:", Main.viewport);
 
             ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY;
@@ -89,7 +89,7 @@ namespace Endabgabe {
             let cmpListener = new ƒ.ComponentAudioListener();
             Main.cmpCamera.getContainer().addComponent(cmpListener);
             ƒ.AudioManager.default.listenWith(cmpListener);
-            ƒ.AudioManager.default.listenTo(this.root);
+            ƒ.AudioManager.default.listenTo(Main.root);
             ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
         }
 
@@ -129,36 +129,36 @@ namespace Endabgabe {
             let playerForward: ƒ.Vector3 = ƒ.Vector3.Z();
             let playerLeft: ƒ.Vector3 = ƒ.Vector3.X();
 
-            playerForward.transform(this.avatar.mtxWorld, false);
-            playerLeft.transform(this.avatar.mtxWorld, false);
+            playerForward.transform(Main.avatar.mtxWorld, false);
+            playerLeft.transform(Main.avatar.mtxWorld, false);
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])) {
                 playerForward.scale(Main.acceleration);
-                this.avatarRb.addVelocity(playerForward);
+                Main.avatarRb.addVelocity(playerForward);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
                 playerForward.scale(-Main.acceleration);
-                this.avatarRb.addVelocity(playerForward);
+                Main.avatarRb.addVelocity(playerForward);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
                 playerLeft.scale(Main.acceleration);
-                this.avatarRb.addVelocity(playerLeft);
+                Main.avatarRb.addVelocity(playerLeft);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
                 playerLeft.scale(-Main.acceleration);
-                this.avatarRb.addVelocity(playerLeft);
+                Main.avatarRb.addVelocity(playerLeft);
             }
 
-            let velo: ƒ.Vector3 = this.avatarRb.getVelocity();
+            let velo: ƒ.Vector3 = Main.avatarRb.getVelocity();
             let xZVelo: ƒ.Vector2 = new ƒ.Vector2(velo.x, velo.z);
 
             if (xZVelo.magnitude >= 0) {
                 xZVelo.scale(1 - Main.drag);
                 let newVelo: ƒ.Vector3 = new ƒ.Vector3(xZVelo.x, velo.y, xZVelo.y);
-                this.avatarRb.setVelocity(newVelo);
+                Main.avatarRb.setVelocity(newVelo);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
@@ -168,7 +168,7 @@ namespace Endabgabe {
 
         private static playerMovement(): void {
             let playerForward: ƒ.Vector3 = ƒ.Vector3.Z();
-            playerForward.transform(this.avatar.mtxWorld, false);
+            playerForward.transform(Main.avatar.mtxWorld, false);
 
             let movementVelocity: ƒ.Vector3 = new ƒ.Vector3();
             //movementVelocity.x = playerForward.x * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
@@ -221,4 +221,6 @@ namespace Endabgabe {
         }
 
     }
+
+    window.addEventListener("load", Main.preInit);
 }
