@@ -17,8 +17,12 @@ namespace Endabgabe {
 
         public static viewport: ƒ.Viewport;
 
-        public static rotationSpeed: number = 0.2;
+        public static rotationSpeed: number = 0.1;
         public static maxXRotation: number = 85;
+
+        public static acceleration: number = 0.4;
+        public static drag: number = 0.1;
+
 
         public static async init(): Promise<void> {
             Main.root = <ƒ.Graph>ƒ.Project.resources[Main.rootGraphId];
@@ -32,12 +36,19 @@ namespace Endabgabe {
 
             Main.createAvatar();
             Main.createRigidbodies();
-            ƒ.Physics.adjustTransforms(Main.root, true);
             Main.setupAudio();
 
 
 
             Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+
+            let test: ƒ.Node = Main.root.getChildrenByName("LTest")[0];
+            //test.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+
+            for (let wall of test.getChildren()) {
+                wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+            }
+            ƒ.Physics.adjustTransforms(Main.root, true);
 
 
             window.addEventListener("mousemove", Main.onMouseMove);
@@ -97,7 +108,61 @@ namespace Endabgabe {
         private static update() {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
 
+            Main.handleKeys();
+            Main.playerMovement();
+
             Main.viewport.draw();
+        }
+
+        private static handleKeys() {
+            let playerForward: ƒ.Vector3 = ƒ.Vector3.Z();
+            let playerLeft: ƒ.Vector3 = ƒ.Vector3.X();
+
+            playerForward.transform(this.avatar.mtxWorld, false);
+            playerLeft.transform(this.avatar.mtxWorld, false);
+
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])) {
+                playerForward.scale(Main.acceleration);
+                this.avatarRb.addVelocity(playerForward);
+            }
+
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
+                playerForward.scale(-Main.acceleration);
+                this.avatarRb.addVelocity(playerForward);
+            }
+
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+                playerLeft.scale(Main.acceleration);
+                this.avatarRb.addVelocity(playerLeft);
+            }
+
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+                playerLeft.scale(-Main.acceleration);
+                this.avatarRb.addVelocity(playerLeft);
+            }
+
+            let velo: ƒ.Vector3 = this.avatarRb.getVelocity();
+            let xZVelo: ƒ.Vector2 = new ƒ.Vector2(velo.x, velo.z);
+
+            if (xZVelo.magnitude >= 0) {
+                xZVelo.scale(1 - Main.drag);
+                let newVelo: ƒ.Vector3 = new ƒ.Vector3(xZVelo.x, velo.y, xZVelo.y);
+                this.avatarRb.setVelocity(newVelo);
+            }
+
+        }
+
+        private static playerMovement(): void {
+            let playerForward: ƒ.Vector3 = ƒ.Vector3.Z();
+            playerForward.transform(this.avatar.mtxWorld, false);
+
+            let movementVelocity: ƒ.Vector3 = new ƒ.Vector3();
+            //movementVelocity.x = playerForward.x * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
+            //movementVelocity.y = Main.cmpAvatar.getVelocity().y;
+
+            //movementVelocity.z = playerForward.z * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
+            //Main.avatarRb.setVelocity(movementVelocity);
+
         }
 
         private static createRigidbodies() {
@@ -105,7 +170,7 @@ namespace Endabgabe {
 
                 for (let wall of element.getChildren()) {
 
-                   // let transform: ƒ.ComponentTransform = wall.cmpTransform;
+                    //let transform: ƒ.ComponentTransform = wall.cmpTransform;
                     //console.log(transform.mtxLocal);
 
                     //let rotation: ƒ.Vector3 = transform.mtxLocal.rotation;
@@ -114,7 +179,7 @@ namespace Endabgabe {
 
                     wall.addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
 
-                   // wall.removeComponent(transform);
+                    // wall.removeComponent(transform);
                     //wall.addComponent(new ƒ.ComponentTransform(mtxLocal));
                 }
             }

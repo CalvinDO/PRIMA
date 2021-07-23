@@ -10,8 +10,10 @@ var Endabgabe;
         static avatarHeadHeight = 0.5;
         static cmpCamera;
         static viewport;
-        static rotationSpeed = 0.2;
+        static rotationSpeed = 0.1;
         static maxXRotation = 85;
+        static acceleration = 0.4;
+        static drag = 0.1;
         static async init() {
             Main.root = ƒ.Project.resources[Main.rootGraphId];
             await Endabgabe.ElementLoader.init();
@@ -20,9 +22,14 @@ var Endabgabe;
             await Endabgabe.ElementLoader.createElements();
             Main.createAvatar();
             Main.createRigidbodies();
-            ƒ.Physics.adjustTransforms(Main.root, true);
             Main.setupAudio();
             Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+            let test = Main.root.getChildrenByName("LTest")[0];
+            //test.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+            for (let wall of test.getChildren()) {
+                wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+            }
+            ƒ.Physics.adjustTransforms(Main.root, true);
             window.addEventListener("mousemove", Main.onMouseMove);
             let canvas = document.querySelector("canvas");
             Main.viewport = new ƒ.Viewport();
@@ -61,12 +68,52 @@ var Endabgabe;
         }
         static update() {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
+            Main.handleKeys();
+            Main.playerMovement();
             Main.viewport.draw();
+        }
+        static handleKeys() {
+            let playerForward = ƒ.Vector3.Z();
+            let playerLeft = ƒ.Vector3.X();
+            playerForward.transform(this.avatar.mtxWorld, false);
+            playerLeft.transform(this.avatar.mtxWorld, false);
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])) {
+                playerForward.scale(Main.acceleration);
+                this.avatarRb.addVelocity(playerForward);
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
+                playerForward.scale(-Main.acceleration);
+                this.avatarRb.addVelocity(playerForward);
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+                playerLeft.scale(Main.acceleration);
+                this.avatarRb.addVelocity(playerLeft);
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+                playerLeft.scale(-Main.acceleration);
+                this.avatarRb.addVelocity(playerLeft);
+            }
+            let velo = this.avatarRb.getVelocity();
+            let xZVelo = new ƒ.Vector2(velo.x, velo.z);
+            if (xZVelo.magnitude >= 0) {
+                xZVelo.scale(1 - Main.drag);
+                let newVelo = new ƒ.Vector3(xZVelo.x, velo.y, xZVelo.y);
+                this.avatarRb.setVelocity(newVelo);
+            }
+        }
+        static playerMovement() {
+            let playerForward = ƒ.Vector3.Z();
+            playerForward.transform(this.avatar.mtxWorld, false);
+            let movementVelocity = new ƒ.Vector3();
+            //movementVelocity.x = playerForward.x * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
+            //movementVelocity.y = Main.cmpAvatar.getVelocity().y;
+            //movementVelocity.z = playerForward.z * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
+            //Main.avatarRb.setVelocity(movementVelocity);
         }
         static createRigidbodies() {
             for (let element of Main.createdElements.getChildren()) {
                 for (let wall of element.getChildren()) {
-                    // let transform: ƒ.ComponentTransform = wall.cmpTransform;
+                    //let transform: ƒ.ComponentTransform = wall.cmpTransform;
                     //console.log(transform.mtxLocal);
                     //let rotation: ƒ.Vector3 = transform.mtxLocal.rotation;
                     //let translation: ƒ.Vector3 = transform.mtxLocal.translation;
