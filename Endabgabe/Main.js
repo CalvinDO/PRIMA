@@ -2,7 +2,7 @@
 var Endabgabe;
 (function (Endabgabe) {
     class Main {
-        static rootGraphId = "Graph|2021-07-23T18:40:28.353Z|85227";
+        static rootGraphId = "Graph|2021-07-23T14:18:52.304Z|39896";
         static root;
         static createdElements;
         static avatar;
@@ -21,20 +21,10 @@ var Endabgabe;
             await ƒ.Project.loadResourcesFromHTML();
             ƒ.Debug.log("Project:", ƒ.Project.resources);
             Main.root = ƒ.Project.resources[Main.rootGraphId];
-            //await ElementLoader.init();
-            //await ElementLoader.createElements();
+            await Endabgabe.ElementLoader.init();
+            await Endabgabe.ElementLoader.createElements();
             Main.cmpCamera = new ƒ.ComponentCamera();
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
-            //Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-            //ƒ.Physics.adjustTransforms(Main.root, true);
-            let test = Main.root.getChildrenByName("Test")[0];
-            // let matrizes: ƒ.Matrix4x4[] = [];
-            for (let wall of Main.root.getChildren()) {
-                //matrizes.push(wall.cmpTransform.mtxLocal);
-                console.log(wall);
-                wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.KINEMATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-                //console.log(wall);
-            }
             Main.createAvatar();
             Main.createRigidbodies();
             Main.setupAudio();
@@ -47,7 +37,7 @@ var Endabgabe;
             canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
             ƒ.Debug.log("Graph:", Main.root);
             ƒ.Debug.log("Viewport:", Main.viewport);
-            ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY;
+            ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
             ƒ.Physics.settings.debugDraw = true;
             ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, Main.update);
             ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 60);
@@ -78,7 +68,6 @@ var Endabgabe;
         static update() {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
             Main.handleKeys();
-            Main.playerMovement();
             Main.viewport.draw();
         }
         static handleKeys() {
@@ -110,31 +99,16 @@ var Endabgabe;
                 Main.avatarRb.setVelocity(newVelo);
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
-                Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 30, 0));
-        }
-        static playerMovement() {
-            let playerForward = ƒ.Vector3.Z();
-            playerForward.transform(Main.avatar.mtxWorld, false);
-            let movementVelocity = new ƒ.Vector3();
-            //movementVelocity.x = playerForward.x * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
-            //movementVelocity.y = Main.cmpAvatar.getVelocity().y;
-            //movementVelocity.z = playerForward.z * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
-            //Main.avatarRb.setVelocity(movementVelocity);
+                Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 20, 0));
         }
         static createRigidbodies() {
+            Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
             if (!Main.createdElements) {
                 return;
             }
-            for (let element of Main.createdElements.getChildren()) {
-                for (let wall of element.getChildren()) {
-                    //let transform: ƒ.ComponentTransform = wall.cmpTransform;
-                    //console.log(transform.mtxLocal);
-                    //let rotation: ƒ.Vector3 = transform.mtxLocal.rotation;
-                    //let translation: ƒ.Vector3 = transform.mtxLocal.translation;
-                    //let mtxLocal: ƒ.Matrix4x4 = transform.mtxLocal;
-                    wall.addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-                    // wall.removeComponent(transform);
-                    //wall.addComponent(new ƒ.ComponentTransform(mtxLocal));
+            for (let child of Main.createdElements.getChildren()) {
+                for (let wall of child.getChildren()) {
+                    wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.KINEMATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
                 }
             }
         }
@@ -144,7 +118,7 @@ var Endabgabe;
             Main.avatarRb.rotationInfluenceFactor = ƒ.Vector3.ZERO();
             Main.avatarRb.friction = 5;
             Main.avatar = new ƒ.Node("Avatar");
-            Main.avatar.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(Main.avatarHeadHeight * 3))));
+            Main.avatar.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(20))));
             Main.avatar.addComponent(Main.avatarRb);
             Main.avatar.addComponent(Main.cmpCamera);
             Main.avatar.mtxLocal.translateX(2);

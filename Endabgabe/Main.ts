@@ -1,7 +1,7 @@
 namespace Endabgabe {
 
     export class Main {
-        public static rootGraphId: string = "Graph|2021-07-23T18:40:28.353Z|85227";
+        public static rootGraphId: string = "Graph|2021-07-23T14:18:52.304Z|39896";
 
         public static root: ƒ.Graph;
         public static createdElements: ƒ.Node;
@@ -31,28 +31,15 @@ namespace Endabgabe {
 
             Main.root = <ƒ.Graph>ƒ.Project.resources[Main.rootGraphId];
 
-            //await ElementLoader.init();
-            //await ElementLoader.createElements();
+            await ElementLoader.init();
+            await ElementLoader.createElements();
+
+
+
 
             Main.cmpCamera = new ƒ.ComponentCamera();
 
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
-
-
-            //Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-
-            //ƒ.Physics.adjustTransforms(Main.root, true);
-
-            let test: ƒ.Node = Main.root.getChildrenByName("Test")[0];
-
-            // let matrizes: ƒ.Matrix4x4[] = [];
-
-            for (let wall of Main.root.getChildren()) {
-                //matrizes.push(wall.cmpTransform.mtxLocal);
-                console.log(wall)
-                wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.KINEMATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-                //console.log(wall);
-            }
 
             Main.createAvatar();
             Main.createRigidbodies();
@@ -77,7 +64,7 @@ namespace Endabgabe {
             ƒ.Debug.log("Graph:", Main.root);
             ƒ.Debug.log("Viewport:", Main.viewport);
 
-            ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.PHYSIC_OBJECTS_ONLY;
+            ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
             ƒ.Physics.settings.debugDraw = true;
 
 
@@ -120,7 +107,6 @@ namespace Endabgabe {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
 
             Main.handleKeys();
-            Main.playerMovement();
 
             Main.viewport.draw();
         }
@@ -162,48 +148,26 @@ namespace Endabgabe {
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
-                Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 30, 0));
+                Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 20, 0));
 
         }
 
-        private static playerMovement(): void {
-            let playerForward: ƒ.Vector3 = ƒ.Vector3.Z();
-            playerForward.transform(Main.avatar.mtxWorld, false);
-
-            let movementVelocity: ƒ.Vector3 = new ƒ.Vector3();
-            //movementVelocity.x = playerForward.x * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
-            //movementVelocity.y = Main.cmpAvatar.getVelocity().y;
-
-            //movementVelocity.z = playerForward.z * (Main.forwardMovement + Main.backwardMovement) * Main.movementspeed;
-            //Main.avatarRb.setVelocity(movementVelocity);
-
-        }
 
         private static createRigidbodies() {
+            Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
+
             if (!Main.createdElements) {
                 return;
             }
-            for (let element of Main.createdElements.getChildren()) {
-
-                for (let wall of element.getChildren()) {
-
-                    //let transform: ƒ.ComponentTransform = wall.cmpTransform;
-                    //console.log(transform.mtxLocal);
-
-                    //let rotation: ƒ.Vector3 = transform.mtxLocal.rotation;
-                    //let translation: ƒ.Vector3 = transform.mtxLocal.translation;
-                    //let mtxLocal: ƒ.Matrix4x4 = transform.mtxLocal;
-
-                    wall.addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-
-                    // wall.removeComponent(transform);
-                    //wall.addComponent(new ƒ.ComponentTransform(mtxLocal));
+            for (let child of Main.createdElements.getChildren()) {
+                for (let wall of child.getChildren()) {
+                    wall.addComponent(new ƒ.ComponentRigidbody(10, ƒ.PHYSICS_TYPE.KINEMATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
                 }
             }
         }
 
-        private static createAvatar() {
 
+        private static createAvatar() {
 
             Main.avatarRb = new ƒ.ComponentRigidbody(32.5, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CAPSULE, ƒ.PHYSICS_GROUP.DEFAULT);
             Main.avatarRb.restitution = 0.2;
@@ -211,7 +175,7 @@ namespace Endabgabe {
             Main.avatarRb.friction = 5;
 
             Main.avatar = new ƒ.Node("Avatar");
-            Main.avatar.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(Main.avatarHeadHeight * 3))));
+            Main.avatar.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(20))));
             Main.avatar.addComponent(Main.avatarRb);
             Main.avatar.addComponent(Main.cmpCamera);
 

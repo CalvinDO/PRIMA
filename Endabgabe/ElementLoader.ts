@@ -89,10 +89,12 @@ namespace Endabgabe {
                 let translations: number[] = positionNode.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
                 let translation: ƒ.Vector3 = new ƒ.Vector3(translations[0], translations[1], translations[2]);
 
+              
 
                 newElement.cmpTransform.mtxLocal.translate(translation);
                 newElement.cmpTransform.mtxLocal.rotate(rotation);
-
+                
+             
                 Main.createdElements.appendChild(newElement);
             }
 
