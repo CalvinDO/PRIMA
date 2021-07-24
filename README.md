@@ -12,9 +12,9 @@ Calvin Dell'Oro
 
 - [Designdokument](https://github.com/CalvinDO/PRIMA/blob/main/Designdokument.pdf)
 
-- [Scripts & Ressourcen](https://calvindo.github.io/PRIMA/Endabgabe/tree/main/Endabgabe/)
+- [Scripts & Ressourcen](https://github.com/CalvinDO/PRIMA/tree/main/Endabgabe/)
 
-- [Zip](https://calvindo.github.io/PRIMA/)
+- [Zip](https://github.com/CalvinDO/PRIMA/blob/main/Designdokument.pdf)
 
 ## Lokal starten
 1. Repository mit HTTPS/SSH clonen oder die Zip herunterladen
