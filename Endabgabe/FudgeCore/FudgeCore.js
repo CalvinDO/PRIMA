@@ -3117,7 +3117,6 @@ var FudgeCore;
     class Audio extends FudgeCore.Mutable {
         constructor(_url) {
             super();
-            console.log(_url);
             this.name = "Audio";
             this.idResource = undefined;
             this.buffer = undefined;
@@ -4681,11 +4680,13 @@ var FudgeCore;
                 if (!this.active)
                     return;
                 let control = _event.target;
-                let event = new CustomEvent("output" /* OUTPUT */, { detail: {
+                let event = new CustomEvent("output" /* OUTPUT */, {
+                    detail: {
                         control: control,
                         input: _event.detail.output,
                         output: this.getOutput()
-                    } });
+                    }
+                });
                 this.dispatchEvent(event);
             };
             this.hndInputEvent = (_event) => {
