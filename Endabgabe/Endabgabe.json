@@ -453,6 +453,28 @@
       "type": "Graph"
     }
   },
+  "Material|2021-07-24T02:36:57.895Z|49733": {
+    "ƒ.Material": {
+      "name": "Greebles",
+      "idResource": "Material|2021-07-24T02:36:57.895Z|49733",
+      "shader": "ShaderTexture",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "name": "Coat",
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2021-07-24T02:36:08.641Z|99731"
+        }
+      }
+    }
+  },
+  "TextureImage|2021-07-24T02:36:08.641Z|99731": {
+    "ƒ.TextureImage": {
+      "url": "Textures\\greebles.jpg",
+      "idResource": "TextureImage|2021-07-24T02:36:08.641Z|99731",
+      "name": "Textures\\greebles.jpg",
+      "type": "TextureImage"
+    }
+  },
   "Graph|2021-07-22T17:46:11.732Z|64322": {
     "ƒ.Graph": {
       "name": "DeadEnd",
@@ -1516,7 +1538,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1572,7 +1594,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1628,7 +1650,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -4032,118 +4054,7 @@
           }
         ]
       },
-      "children": [
-        {
-          "ƒ.Node": {
-            "name": "middlePoint",
-            "components": {
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[0.20000000298023224, 0.20000000298023224, 0.20000000298023224]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentMesh": [
-                {
-                  "ƒ.ComponentMesh": {
-                    "idMesh": "MeshSphere|2021-07-22T19:49:53.380Z|78060",
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentMaterial": [
-                {
-                  "ƒ.ComponentMaterial": {
-                    "sortForAlpha": false,
-                    "clrPrimary": "[1, 1, 1, 1]",
-                    "clrSecondary": "[1, 1, 1, 1]",
-                    "pivot": {
-                      "translation": "[0, 0]",
-                      "rotation": 0,
-                      "scaling": "[1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "Ground",
-            "components": {
-              "ComponentMesh": [
-                {
-                  "ƒ.ComponentMesh": {
-                    "idMesh": "MeshCube|2021-07-23T12:48:56.947Z|00465",
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": false
-                    }
-                  }
-                }
-              ],
-              "ComponentMaterial": [
-                {
-                  "ƒ.ComponentMaterial": {
-                    "sortForAlpha": false,
-                    "clrPrimary": "[1, 1, 1, 1]",
-                    "clrSecondary": "[1, 1, 1, 1]",
-                    "pivot": {
-                      "translation": "[0, 0]",
-                      "rotation": 0,
-                      "scaling": "[1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
-                  }
-                }
-              ],
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[0, -2, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[9, 1, 8]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        }
-      ],
+      "children": [],
       "idResource": "Graph|2021-07-23T14:18:52.304Z|39896",
       "type": "Graph"
     }
@@ -4416,26 +4327,106 @@
       "type": "Graph"
     }
   },
-  "TextureImage|2021-07-24T02:36:08.641Z|99731": {
-    "ƒ.TextureImage": {
-      "url": "Textures\\greebles.jpg",
-      "idResource": "TextureImage|2021-07-24T02:36:08.641Z|99731",
-      "name": "Textures\\greebles.jpg",
-      "type": "TextureImage"
-    }
-  },
-  "Material|2021-07-24T02:36:57.895Z|49733": {
+  "Material|2021-07-24T04:07:50.941Z|51356": {
     "ƒ.Material": {
-      "name": "Greebles",
-      "idResource": "Material|2021-07-24T02:36:57.895Z|49733",
+      "name": "GoalGreebles",
+      "idResource": "Material|2021-07-24T04:07:50.941Z|51356",
       "shader": "ShaderTexture",
       "coat": {
         "ƒ.CoatTextured": {
           "name": "Coat",
-          "color": "[1, 1, 1, 1]",
+          "color": "[0.9529411764705882, 0.9058823529411765, 0.24705882352941178, 1]",
           "idTexture": "TextureImage|2021-07-24T02:36:08.641Z|99731"
         }
       }
+    }
+  },
+  "MeshSphere|2021-07-24T05:11:54.269Z|63180": {
+    "ƒ.MeshSphere": {
+      "idResource": "MeshSphere|2021-07-24T05:11:54.269Z|63180",
+      "name": "BerrySphere",
+      "type": "MeshSphere",
+      "sectors": 16,
+      "stacks": 10
+    }
+  },
+  "Material|2021-07-24T05:12:46.555Z|31185": {
+    "ƒ.Material": {
+      "name": "BerryMaterial",
+      "idResource": "Material|2021-07-24T05:12:46.555Z|31185",
+      "shader": "ShaderTexture",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "name": "Coat",
+          "color": "[0.8313725490196079, 0.7764705882352941, 0.7490196078431373, 1]",
+          "idTexture": "TextureImage|2021-07-24T05:16:49.101Z|42139"
+        }
+      }
+    }
+  },
+  "TextureImage|2021-07-24T05:16:49.101Z|42139": {
+    "ƒ.TextureImage": {
+      "url": "Textures\\berry.jpg",
+      "idResource": "TextureImage|2021-07-24T05:16:49.101Z|42139",
+      "name": "Textures\\berry.jpg",
+      "type": "TextureImage"
+    }
+  },
+  "Graph|2021-07-24T05:52:24.981Z|95780": {
+    "ƒ.Graph": {
+      "name": "Berry",
+      "components": {
+        "ComponentMesh": [
+          {
+            "ƒ.ComponentMesh": {
+              "idMesh": "MeshSphere|2021-07-24T05:11:54.269Z|63180",
+              "pivot": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "ComponentMaterial": [
+          {
+            "ƒ.ComponentMaterial": {
+              "sortForAlpha": false,
+              "clrPrimary": "[1, 1, 1, 1]",
+              "clrSecondary": "[1, 1, 1, 1]",
+              "pivot": {
+                "translation": "[0, 0]",
+                "rotation": 0,
+                "scaling": "[1, 1]"
+              },
+              "Component": {
+                "active": true
+              },
+              "idMaterial": "Material|2021-07-24T05:12:46.555Z|31185"
+            }
+          }
+        ],
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[0.30000001192092896, 0.29999998211860657, 0.2999999225139618]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      "children": [],
+      "idResource": "Graph|2021-07-24T05:52:24.981Z|95780",
+      "type": "Graph"
     }
   }
 }

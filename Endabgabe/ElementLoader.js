@@ -16,6 +16,9 @@ var Endabgabe;
     class ElementLoader {
         static elementIDMap = {};
         static elementMap = {};
+        static berryID = "Graph|2021-07-24T05:52:24.981Z|95780";
+        static berry;
+        static newBerry;
         static fillElementMapIds() {
             ElementLoader.elementIDMap[ElementType.DeadEnd] = "Graph|2021-07-22T17:46:11.732Z|64322";
             ElementLoader.elementIDMap[ElementType.Tunnel] = "Graph|2021-07-22T17:51:51.065Z|73974";
@@ -50,23 +53,31 @@ var Endabgabe;
         static async init() {
             ElementLoader.fillElementMapIds();
             ElementLoader.fillElementResources();
+            ElementLoader.berry = ƒ.Project.resources[ElementLoader.berryID];
         }
         static async createElements() {
             Endabgabe.Main.createdElements = new ƒ.Node("CreatedElements");
-            Endabgabe.Main.createdElements.addComponent(new ƒ.ComponentTransform);
+            Endabgabe.Main.goals = new ƒ.Node("Goals");
+            // Main.createdElements.addComponent(new ƒ.ComponentTransform);
             let response = await fetch("elements.dae");
             let xmlText = await response.text();
             let xml = new DOMParser().parseFromString(xmlText, "text/xml");
             let visualScene = xml.querySelector("library_visual_scenes #Scene");
             for (let positionNode of visualScene.children) {
-                let nameFirstPart = positionNode.id.split("_")[0];
-                let foundElementType = ElementLoader.stringToElementType(nameFirstPart);
                 let rotations = Array.prototype.slice.call(positionNode.querySelectorAll("rotate"));
                 let rotNumbers = rotations.map(axis => +axis.textContent.split(" ")[3]);
                 let rotation = new ƒ.Vector3(rotNumbers[2], rotNumbers[1], rotNumbers[0]);
                 let translations = positionNode.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
                 let translation = new ƒ.Vector3(translations[0], translations[1], translations[2]);
-                let newElement = new Endabgabe.Element(foundElementType, translation, rotation);
+                let nameFirstPart = positionNode.id.split("_")[0];
+                let newElement;
+                if (nameFirstPart == "Goal") {
+                    newElement = new Endabgabe.Goal(translation, rotation);
+                }
+                else {
+                    let foundElementType = ElementLoader.stringToElementType(nameFirstPart);
+                    newElement = new Endabgabe.Element(foundElementType, translation, rotation);
+                }
                 await newElement.setData();
                 Endabgabe.Main.createdElements.appendChild(newElement);
             }

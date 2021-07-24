@@ -10,6 +10,8 @@ namespace Endabgabe {
 
         public static root: ƒ.Graph;
         public static createdElements: ƒ.Node;
+        public static goals: ƒ.Node;
+
 
         public static avatar: ƒ.Node;
 
@@ -41,9 +43,19 @@ namespace Endabgabe {
         public static rotator: ƒ.Node;
 
 
+        public static rotateSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/rotate.wav");
+        public static backgroundSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/background.wav");
+        public static cmpRotateSound: ƒ.ComponentAudio = new ƒ.ComponentAudio(Main.rotateSound);
+        public static cmpBackgroundSound: ƒ.ComponentAudio = new ƒ.ComponentAudio(Main.backgroundSound);
+
+
+        public static isGameWon: boolean;
+
+
         public static async init(): Promise<void> {
+
             await ƒ.Project.loadResourcesFromHTML();
-            ƒ.Debug.log("Project:", ƒ.Project.resources);
+
 
             Main.root = <ƒ.Graph>ƒ.Project.resources[Main.rootGraphId];
 
@@ -76,15 +88,13 @@ namespace Endabgabe {
             Main.viewport.initialize("InteractiveViewport", Main.root, Main.cmpCamera, canvas);
 
             canvas.addEventListener("mousedown", canvas.requestPointerLock);
-            canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
+            canvas.addEventListener("mouseup", function (_event: MouseEvent) { if (_event.button == 1) { document.exitPointerLock(); } });
 
 
+            //ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
+            //ƒ.Physics.settings.debugDraw = true;
 
-            ƒ.Debug.log("Graph:", Main.root);
-            ƒ.Debug.log("Viewport:", Main.viewport);
-
-            ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
-            ƒ.Physics.settings.debugDraw = true;
+            Main.cmpBackgroundSound.play(true);
 
 
             ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, Main.update);
@@ -95,9 +105,18 @@ namespace Endabgabe {
         private static setupAudio(): void {
             let cmpListener = new ƒ.ComponentAudioListener();
             Main.cmpCamera.getContainer().addComponent(cmpListener);
+
+            let audio: ƒ.Node = new ƒ.Node("Audio");
+            audio.addComponent(Main.cmpRotateSound);
+            audio.addComponent(Main.cmpBackgroundSound);
+
+            Main.cmpRotateSound.volume = 1;
+            Main.cmpBackgroundSound.volume = 0.3;
+
+            Main.avatar.appendChild(audio);
+
             ƒ.AudioManager.default.listenWith(cmpListener);
             ƒ.AudioManager.default.listenTo(Main.root);
-            ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
         }
 
 
@@ -121,21 +140,69 @@ namespace Endabgabe {
 
         }
 
-        static onKeyDown(_event: KeyboardEvent) {
-            //throw new Error("Method not implemented.");
+        public static onKeyUp(_event: KeyboardEvent) {
+            if (_event.key == "f") {
+                Main.layBerry();
+            }
         }
 
-        private static update() {
+        private static async layBerry(): Promise<void> {
+            let newBerry: ƒ.GraphInstance = await ƒ.Project.createGraphInstance(ElementLoader.berry);
+
+            let rb: ƒ.ComponentRigidbody = new ƒ.ComponentRigidbody(5, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.SPHERE, ƒ.PHYSICS_GROUP.DEFAULT);
+            newBerry.addComponent(rb);
+            rb.mtxPivot.translate(Main.avatar.mtxWorld.translation);
+            Main.root.appendChild(newBerry);
+            ƒ.Physics.adjustTransforms(newBerry, true);
+        }
+
+        private static update(): void {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
 
             Main.handleMovementKeys();
             Main.handleRotationKeys();
+            Main.handleBackgroundSound();
+            Main.handleGoals();
 
             if (Main.rotating) {
                 Main.rotateMaze();
             }
 
+            if (ElementLoader.newBerry) {
+
+            }
+
+
             Main.viewport.draw();
+        }
+
+        private static handleGoals(): void {
+
+            for (let goal of Main.createdElements.getChildren()) {
+                let currentGoal: Goal;
+
+                if (goal instanceof Goal) {
+                    currentGoal = <Goal>goal;
+                    if (currentGoal.collidesWith(Main.avatar.mtxWorld.translation)) {
+                        Main.gameWon();
+                    }
+                }
+
+            }
+        }
+
+        private static gameWon(): void {
+            Main.isGameWon = true;
+            alert("You have won the game!");
+            console.log("You have won the game!");
+
+            Main.cmpBackgroundSound.play(false);
+        }
+
+        private static handleBackgroundSound(): void {
+            if (!Main.cmpBackgroundSound.isPlaying && !Main.isGameWon) {
+                Main.cmpBackgroundSound.play(true);
+            }
         }
 
         private static handleRotationKeys(): void {
@@ -148,8 +215,7 @@ namespace Endabgabe {
                 for (let child of Main.createdElements.getChildren()) {
                     let currentElement: Element = <Element>child;
 
-                    if (currentElement.collidesWith(this.avatar.mtxWorld.translation)) {
-
+                    if (currentElement.collidesWith(Main.avatar.mtxWorld.translation)) {
 
                         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
                             Main.rotationAxis = Axis["-Z"]
@@ -250,6 +316,8 @@ namespace Endabgabe {
 
             Main.rotator.mtxLocal.set(ƒ.Matrix4x4.IDENTITY());
             Main.rotator.mtxLocal.translate(rotationPoint);
+
+            Main.cmpRotateSound.play(true);
         }
 
 
@@ -294,18 +362,16 @@ namespace Endabgabe {
 
         }
 
-
         private static createRigidbodies() {
-            //Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
-
             if (!Main.createdElements) {
                 return;
             }
             for (let child of Main.createdElements.getChildren()) {
                 let currentElement: Element = <Element>child;
                 currentElement.addRigidbodies();
-
             }
+
+
         }
 
 
@@ -333,5 +399,5 @@ namespace Endabgabe {
     }
 
     window.addEventListener("load", Main.init);
-    window.addEventListener("keydown", Main.onKeyDown);
+    window.addEventListener("keyup", Main.onKeyUp);
 }

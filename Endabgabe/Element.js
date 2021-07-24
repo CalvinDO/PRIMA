@@ -11,12 +11,9 @@ var Endabgabe;
             this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.IDENTITY()));
             this.cmpTransform.mtxLocal.translate(_translation);
             this.cmpTransform.mtxLocal.rotate(_rotation);
-            this.setData();
         }
         async setData() {
             this.data = await ƒ.Project.createGraphInstance(Endabgabe.ElementLoader.elementMap[this.type]);
-            //   this.data.cmpTransform.mtxLocal.translate(this.translation);
-            // this.data.cmpTransform.mtxLocal.rotate(this.rotation);
             this.appendChild(this.data);
         }
         addRigidbodies() {

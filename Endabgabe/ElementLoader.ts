@@ -26,7 +26,9 @@ namespace Endabgabe {
 
         public static elementMap: ElementMap = {};
 
-
+        public static berryID: string = "Graph|2021-07-24T05:52:24.981Z|95780";
+        public static berry: ƒ.Graph;
+        public static newBerry: ƒ.Node;
 
 
         private static fillElementMapIds(): void {
@@ -69,11 +71,14 @@ namespace Endabgabe {
         public static async init(): Promise<void> {
             ElementLoader.fillElementMapIds();
             ElementLoader.fillElementResources();
+
+            ElementLoader.berry = <ƒ.Graph>ƒ.Project.resources[ElementLoader.berryID];
         }
 
         public static async createElements() {
             Main.createdElements = new ƒ.Node("CreatedElements");
-            Main.createdElements.addComponent(new ƒ.ComponentTransform);
+            Main.goals = new ƒ.Node("Goals");
+            // Main.createdElements.addComponent(new ƒ.ComponentTransform);
 
             let response: Response = await fetch("elements.dae");
             let xmlText: string = await response.text();
@@ -81,10 +86,8 @@ namespace Endabgabe {
             let xml: XMLDocument = new DOMParser().parseFromString(xmlText, "text/xml");
             let visualScene: ParentNode = <ParentNode>xml.querySelector("library_visual_scenes #Scene");
 
-            for (let positionNode of visualScene.children) {
-                let nameFirstPart: string = positionNode.id.split("_")[0];
-                let foundElementType: ElementType = ElementLoader.stringToElementType(nameFirstPart);
 
+            for (let positionNode of visualScene.children) {
 
                 let rotations: Node[] = Array.prototype.slice.call(positionNode.querySelectorAll("rotate"));
                 let rotNumbers: number[] = rotations.map(axis => +axis.textContent.split(" ")[3]);
@@ -93,8 +96,16 @@ namespace Endabgabe {
                 let translations: number[] = positionNode.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
                 let translation: ƒ.Vector3 = new ƒ.Vector3(translations[0], translations[1], translations[2]);
 
+                let nameFirstPart: string = positionNode.id.split("_")[0];
 
-                let newElement: Element = new Element(foundElementType, translation, rotation);
+                let newElement: Element;
+
+                if (nameFirstPart == "Goal") {
+                    newElement = new Goal(translation, rotation);
+                } else {
+                    let foundElementType: ElementType = ElementLoader.stringToElementType(nameFirstPart);
+                    newElement = new Element(foundElementType, translation, rotation);
+                }
 
                 await newElement.setData();
                 Main.createdElements.appendChild(newElement);

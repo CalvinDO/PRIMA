@@ -12,6 +12,7 @@ var Endabgabe;
         static rootGraphId = "Graph|2021-07-23T14:18:52.304Z|39896";
         static root;
         static createdElements;
+        static goals;
         static avatar;
         static avatarRb;
         static avatarHeadHeight = 0.5;
@@ -29,9 +30,13 @@ var Endabgabe;
         static rotationAcceleration = 0.025;
         static rotationAxis;
         static rotator;
+        static rotateSound = new ƒ.Audio("/Endabgabe/Audio/rotate.wav");
+        static backgroundSound = new ƒ.Audio("/Endabgabe/Audio/background.wav");
+        static cmpRotateSound = new ƒ.ComponentAudio(Main.rotateSound);
+        static cmpBackgroundSound = new ƒ.ComponentAudio(Main.backgroundSound);
+        static isGameWon;
         static async init() {
             await ƒ.Project.loadResourcesFromHTML();
-            ƒ.Debug.log("Project:", ƒ.Project.resources);
             Main.root = ƒ.Project.resources[Main.rootGraphId];
             await Endabgabe.ElementLoader.init();
             await Endabgabe.ElementLoader.createElements();
@@ -50,20 +55,26 @@ var Endabgabe;
             Main.viewport = new ƒ.Viewport();
             Main.viewport.initialize("InteractiveViewport", Main.root, Main.cmpCamera, canvas);
             canvas.addEventListener("mousedown", canvas.requestPointerLock);
-            canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
-            ƒ.Debug.log("Graph:", Main.root);
-            ƒ.Debug.log("Viewport:", Main.viewport);
-            ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
-            ƒ.Physics.settings.debugDraw = true;
+            canvas.addEventListener("mouseup", function (_event) { if (_event.button == 1) {
+                document.exitPointerLock();
+            } });
+            //ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
+            //ƒ.Physics.settings.debugDraw = true;
+            Main.cmpBackgroundSound.play(true);
             ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, Main.update);
             ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 60);
         }
         static setupAudio() {
             let cmpListener = new ƒ.ComponentAudioListener();
             Main.cmpCamera.getContainer().addComponent(cmpListener);
+            let audio = new ƒ.Node("Audio");
+            audio.addComponent(Main.cmpRotateSound);
+            audio.addComponent(Main.cmpBackgroundSound);
+            Main.cmpRotateSound.volume = 1;
+            Main.cmpBackgroundSound.volume = 0.3;
+            Main.avatar.appendChild(audio);
             ƒ.AudioManager.default.listenWith(cmpListener);
             ƒ.AudioManager.default.listenTo(Main.root);
-            ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
         }
         static onMouseMove(_event) {
             Main.avatarRb.rotateBody(ƒ.Vector3.Y(-_event.movementX * Main.rotationSpeed));
@@ -78,17 +89,53 @@ var Endabgabe;
             }
             Main.cmpCamera.mtxPivot.rotateX(XIncrement);
         }
-        static onKeyDown(_event) {
-            //throw new Error("Method not implemented.");
+        static onKeyUp(_event) {
+            if (_event.key == "f") {
+                Main.layBerry();
+            }
+        }
+        static async layBerry() {
+            let newBerry = await ƒ.Project.createGraphInstance(Endabgabe.ElementLoader.berry);
+            let rb = new ƒ.ComponentRigidbody(5, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.SPHERE, ƒ.PHYSICS_GROUP.DEFAULT);
+            newBerry.addComponent(rb);
+            rb.mtxPivot.translate(Main.avatar.mtxWorld.translation);
+            Main.root.appendChild(newBerry);
+            ƒ.Physics.adjustTransforms(newBerry, true);
         }
         static update() {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
             Main.handleMovementKeys();
             Main.handleRotationKeys();
+            Main.handleBackgroundSound();
+            Main.handleGoals();
             if (Main.rotating) {
                 Main.rotateMaze();
             }
+            if (Endabgabe.ElementLoader.newBerry) {
+            }
             Main.viewport.draw();
+        }
+        static handleGoals() {
+            for (let goal of Main.createdElements.getChildren()) {
+                let currentGoal;
+                if (goal instanceof Endabgabe.Goal) {
+                    currentGoal = goal;
+                    if (currentGoal.collidesWith(Main.avatar.mtxWorld.translation)) {
+                        Main.gameWon();
+                    }
+                }
+            }
+        }
+        static gameWon() {
+            Main.isGameWon = true;
+            alert("You have won the game!");
+            console.log("You have won the game!");
+            Main.cmpBackgroundSound.play(false);
+        }
+        static handleBackgroundSound() {
+            if (!Main.cmpBackgroundSound.isPlaying && !Main.isGameWon) {
+                Main.cmpBackgroundSound.play(true);
+            }
         }
         static handleRotationKeys() {
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.ARROW_UP, ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
@@ -97,7 +144,7 @@ var Endabgabe;
                 }
                 for (let child of Main.createdElements.getChildren()) {
                     let currentElement = child;
-                    if (currentElement.collidesWith(this.avatar.mtxWorld.translation)) {
+                    if (currentElement.collidesWith(Main.avatar.mtxWorld.translation)) {
                         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
                             Main.rotationAxis = Axis["-Z"];
                         }
@@ -173,6 +220,7 @@ var Endabgabe;
             let rotationPoint = currentElement.mtxWorld.translation;
             Main.rotator.mtxLocal.set(ƒ.Matrix4x4.IDENTITY());
             Main.rotator.mtxLocal.translate(rotationPoint);
+            Main.cmpRotateSound.play(true);
         }
         static handleMovementKeys() {
             let playerForward = ƒ.Vector3.Z();
@@ -206,7 +254,6 @@ var Endabgabe;
                 Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 35, 0));
         }
         static createRigidbodies() {
-            //Main.root.getChildrenByName("Ground")[0].addComponent(new ƒ.ComponentRigidbody(100, ƒ.PHYSICS_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE, ƒ.PHYSICS_GROUP.DEFAULT));
             if (!Main.createdElements) {
                 return;
             }
@@ -232,6 +279,6 @@ var Endabgabe;
     }
     Endabgabe.Main = Main;
     window.addEventListener("load", Main.init);
-    window.addEventListener("keydown", Main.onKeyDown);
+    window.addEventListener("keyup", Main.onKeyUp);
 })(Endabgabe || (Endabgabe = {}));
 //# sourceMappingURL=Main.js.map
