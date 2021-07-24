@@ -23,13 +23,13 @@ namespace Endabgabe {
         public static viewport: ƒ.Viewport;
 
         public static isGrounded: boolean;
-        public static jumpForce: number = 20;
+        public static jumpForce: number = 750;
 
         public static rotationSpeed: number = 0.1;
         public static maxXRotation: number = 85;
 
-        public static acceleration: number = 1;
-        public static drag: number = 0.1;
+        public static movementAcceleration: number = 28;
+        public static movementDrag: number = 0.1;
 
         public static avatarScale: number = 0.35;
 
@@ -39,7 +39,7 @@ namespace Endabgabe {
         public static rotating: boolean;
         public static rotationSum: number = 0;
         public static rotationIncrement: number = 0;
-        public static rotationAcceleration: number = 0.025;
+        public static rotationAcceleration: number = 100;
 
         public static rotationAxis: Axis;
 
@@ -48,14 +48,22 @@ namespace Endabgabe {
 
         public static rotateSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/rotate.wav");
         public static backgroundSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/background.wav");
+        public static winSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/win.mp3");
+
         public static cmpRotateSound: ƒ.ComponentAudio = new ƒ.ComponentAudio(Main.rotateSound);
         public static cmpBackgroundSound: ƒ.ComponentAudio = new ƒ.ComponentAudio(Main.backgroundSound);
-
+        public static cmpWinSound: ƒ.ComponentAudio = new ƒ.ComponentAudio(Main.winSound);
 
         public static isGameWon: boolean;
 
+        public static isModeHardcore: boolean;
+
+        public static hardcoreToggle: HTMLInputElement;
+
 
         public static async init(): Promise<void> {
+            Main.hardcoreToggle = document.querySelector("#hardcoreMode input");
+            Main.hardcoreToggle.onchange = function () { Main.isModeHardcore = Main.hardcoreToggle.checked };
 
             await ƒ.Project.loadResourcesFromHTML();
 
@@ -70,7 +78,7 @@ namespace Endabgabe {
             Main.cmpCamera = new ƒ.ComponentCamera();
 
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
-            Main.cmpCamera.projectCentral(16 / 9, 80);
+            Main.cmpCamera.projectCentral(16 / 9, 90, 0.5, 0.1);
 
             Main.createAvatar();
             Main.createRigidbodies();
@@ -112,9 +120,11 @@ namespace Endabgabe {
             let audio: ƒ.Node = new ƒ.Node("Audio");
             audio.addComponent(Main.cmpRotateSound);
             audio.addComponent(Main.cmpBackgroundSound);
+            audio.addComponent(Main.cmpWinSound);
 
             Main.cmpRotateSound.volume = 1;
             Main.cmpBackgroundSound.volume = 0.3;
+            Main.cmpWinSound.volume = 2;
 
             Main.avatar.appendChild(audio);
 
@@ -164,13 +174,15 @@ namespace Endabgabe {
 
             Main.playerIsGroundedRaycast();
 
-            Main.handleMovementKeys();
+            if (!Main.isModeHardcore) {
+                Main.handleMovementKeys(ƒ.Loop.timeFrameReal / 1000);
+            }
             Main.handleRotationKeys();
             Main.handleBackgroundSound();
             Main.handleGoals();
 
             if (Main.rotating) {
-                Main.rotateMaze();
+                Main.rotateMaze(ƒ.Loop.timeFrameReal / 1000);
             }
 
             Main.viewport.draw();
@@ -178,7 +190,7 @@ namespace Endabgabe {
 
         private static playerIsGroundedRaycast(): void {
             let hitInfo: ƒ.RayHitInfo;
-            hitInfo = ƒ.Physics.raycast(this.avatarRb.getPosition(), new ƒ.Vector3(0, - 1, 0), Main.avatarScale + 0.06);
+            hitInfo = ƒ.Physics.raycast(Main.avatarRb.getPosition(), new ƒ.Vector3(0, - 1, 0), Main.avatarScale + 0.1);
             if (hitInfo.hit)
                 Main.isGrounded = true;
             else
@@ -193,19 +205,22 @@ namespace Endabgabe {
                 if (goal instanceof Goal) {
                     currentGoal = <Goal>goal;
                     if (currentGoal.collidesWith(Main.avatar.mtxWorld.translation)) {
-                        Main.gameWon();
+                        Main.winGame();
                     }
                 }
 
             }
         }
 
-        private static gameWon(): void {
+        private static winGame(): void {
+            ƒ.Loop.stop();
             Main.isGameWon = true;
-            alert("You have won the game!");
+            Main.cmpBackgroundSound.play(false);
+            Main.cmpWinSound.play(true);
+
+            //alert("You have won the game!");
             console.log("You have won the game!");
 
-            Main.cmpBackgroundSound.play(false);
         }
 
         private static handleBackgroundSound(): void {
@@ -247,22 +262,23 @@ namespace Endabgabe {
         }
 
 
-        private static rotateMaze(): void {
+        private static rotateMaze(_deltaTime: number): void {
 
             let rotationTransform: ƒ.Matrix4x4;
+            let scaledRotationIncrement: number = Main.rotationIncrement * _deltaTime;
 
             switch (Main.rotationAxis) {
                 case Axis.X:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(scaledRotationIncrement);
                     break;
                 case Axis["-X"]:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(-Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(-scaledRotationIncrement);
                     break;
                 case Axis.Z:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(scaledRotationIncrement);
                     break;
                 case Axis["-Z"]:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(-Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(-scaledRotationIncrement);
                     break;
                 default:
                     break;
@@ -273,12 +289,10 @@ namespace Endabgabe {
                 child.cmpTransform.transform(rotationTransform, ƒ.BASE.NODE, Main.rotator);
             }
 
-            Main.rotationSum += Main.rotationIncrement;
-            Main.rotationIncrement += Main.rotationAcceleration;
+            Main.rotationSum += scaledRotationIncrement;
+            Main.rotationIncrement += Main.rotationAcceleration * _deltaTime;
 
             if (Main.rotationSum >= 90) {
-
-
                 Main.finishRotation();
             }
         }
@@ -290,6 +304,8 @@ namespace Endabgabe {
 
             let overflow: number = Main.rotationSum - 90;
             let rotationOverflow: ƒ.Matrix4x4;
+
+
 
             switch (Main.rotationAxis) {
                 case Axis.X:
@@ -330,30 +346,34 @@ namespace Endabgabe {
         }
 
 
-        private static handleMovementKeys() {
+        private static handleMovementKeys(_deltaTime: number) {
+
             let playerForward: ƒ.Vector3 = ƒ.Vector3.Z();
             let playerLeft: ƒ.Vector3 = ƒ.Vector3.X();
 
             playerForward.transform(Main.avatar.mtxWorld, false);
             playerLeft.transform(Main.avatar.mtxWorld, false);
 
+            playerForward.scale(_deltaTime);
+            playerLeft.scale(_deltaTime);
+
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
-                playerForward.scale(Main.acceleration);
+                playerForward.scale(Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerForward);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S])) {
-                playerForward.scale(-Main.acceleration);
+                playerForward.scale(-Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerForward);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A])) {
-                playerLeft.scale(Main.acceleration);
+                playerLeft.scale(Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerLeft);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D])) {
-                playerLeft.scale(-Main.acceleration);
+                playerLeft.scale(-Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerLeft);
             }
 
@@ -361,14 +381,14 @@ namespace Endabgabe {
             let xZVelo: ƒ.Vector2 = new ƒ.Vector2(velo.x, velo.z);
 
             if (xZVelo.magnitude >= 0) {
-                xZVelo.scale(1 - Main.drag);
+                xZVelo.scale(1 - Main.movementDrag);
                 let newVelo: ƒ.Vector3 = new ƒ.Vector3(xZVelo.x, velo.y, xZVelo.y);
                 Main.avatarRb.setVelocity(newVelo);
             }
 
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
                 if (Main.isGrounded) {
-                    Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, Main.jumpForce, 0));
+                    Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, Main.jumpForce * _deltaTime, 0));
                 }
             }
         }
@@ -380,18 +400,17 @@ namespace Endabgabe {
             for (let child of Main.createdElements.getChildren()) {
                 let currentElement: Element = <Element>child;
                 currentElement.addRigidbodies();
+                ƒ.Physics.adjustTransforms(child, true);
             }
-
-
         }
 
 
         private static createAvatar() {
 
             Main.avatarRb = new ƒ.ComponentRigidbody(65, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CAPSULE, ƒ.PHYSICS_GROUP.DEFAULT);
-            Main.avatarRb.restitution = 0.2;
+            Main.avatarRb.restitution = 0.1;
             Main.avatarRb.rotationInfluenceFactor = ƒ.Vector3.ZERO();
-            Main.avatarRb.friction = 5;
+            Main.avatarRb.friction = 0.1;
 
             Main.avatar = new ƒ.Node("Avatar");
             Main.avatar.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(0))));

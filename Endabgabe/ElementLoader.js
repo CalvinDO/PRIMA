@@ -16,7 +16,7 @@ var Endabgabe;
     class ElementLoader {
         static elementIDMap = {};
         static elementMap = {};
-        static berryID = "Graph|2021-07-24T05:52:24.981Z|95780";
+        static berryID = "Graph|2021-07-24T09:30:40.324Z|12995";
         static berry;
         static fillElementMapIds() {
             ElementLoader.elementIDMap[ElementType.DeadEnd] = "Graph|2021-07-22T17:46:11.732Z|64322";

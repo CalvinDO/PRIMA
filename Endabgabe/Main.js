@@ -19,25 +19,31 @@ var Endabgabe;
         static cmpCamera;
         static viewport;
         static isGrounded;
-        static jumpForce = 20;
+        static jumpForce = 750;
         static rotationSpeed = 0.1;
         static maxXRotation = 85;
-        static acceleration = 1;
-        static drag = 0.1;
+        static movementAcceleration = 28;
+        static movementDrag = 0.1;
         static avatarScale = 0.35;
         static collidingElement = null;
         static rotating;
         static rotationSum = 0;
         static rotationIncrement = 0;
-        static rotationAcceleration = 0.025;
+        static rotationAcceleration = 100;
         static rotationAxis;
         static rotator;
         static rotateSound = new ƒ.Audio("/Endabgabe/Audio/rotate.wav");
         static backgroundSound = new ƒ.Audio("/Endabgabe/Audio/background.wav");
+        static winSound = new ƒ.Audio("/Endabgabe/Audio/win.mp3");
         static cmpRotateSound = new ƒ.ComponentAudio(Main.rotateSound);
         static cmpBackgroundSound = new ƒ.ComponentAudio(Main.backgroundSound);
+        static cmpWinSound = new ƒ.ComponentAudio(Main.winSound);
         static isGameWon;
+        static isModeHardcore;
+        static hardcoreToggle;
         static async init() {
+            Main.hardcoreToggle = document.querySelector("#hardcoreMode input");
+            Main.hardcoreToggle.onchange = function () { Main.isModeHardcore = Main.hardcoreToggle.checked; };
             await ƒ.Project.loadResourcesFromHTML();
             Main.root = ƒ.Project.resources[Main.rootGraphId];
             await Endabgabe.ElementLoader.init();
@@ -45,7 +51,7 @@ var Endabgabe;
             let canvas = document.querySelector("canvas");
             Main.cmpCamera = new ƒ.ComponentCamera();
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
-            Main.cmpCamera.projectCentral(16 / 9, 80);
+            Main.cmpCamera.projectCentral(16 / 9, 90, 0.5, 0.1);
             Main.createAvatar();
             Main.createRigidbodies();
             Main.setupAudio();
@@ -72,8 +78,10 @@ var Endabgabe;
             let audio = new ƒ.Node("Audio");
             audio.addComponent(Main.cmpRotateSound);
             audio.addComponent(Main.cmpBackgroundSound);
+            audio.addComponent(Main.cmpWinSound);
             Main.cmpRotateSound.volume = 1;
             Main.cmpBackgroundSound.volume = 0.3;
+            Main.cmpWinSound.volume = 2;
             Main.avatar.appendChild(audio);
             ƒ.AudioManager.default.listenWith(cmpListener);
             ƒ.AudioManager.default.listenTo(Main.root);
@@ -107,18 +115,20 @@ var Endabgabe;
         static update() {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
             Main.playerIsGroundedRaycast();
-            Main.handleMovementKeys();
+            if (!Main.isModeHardcore) {
+                Main.handleMovementKeys(ƒ.Loop.timeFrameReal / 1000);
+            }
             Main.handleRotationKeys();
             Main.handleBackgroundSound();
             Main.handleGoals();
             if (Main.rotating) {
-                Main.rotateMaze();
+                Main.rotateMaze(ƒ.Loop.timeFrameReal / 1000);
             }
             Main.viewport.draw();
         }
         static playerIsGroundedRaycast() {
             let hitInfo;
-            hitInfo = ƒ.Physics.raycast(this.avatarRb.getPosition(), new ƒ.Vector3(0, -1, 0), Main.avatarScale + 0.06);
+            hitInfo = ƒ.Physics.raycast(Main.avatarRb.getPosition(), new ƒ.Vector3(0, -1, 0), Main.avatarScale + 0.1);
             if (hitInfo.hit)
                 Main.isGrounded = true;
             else
@@ -130,16 +140,18 @@ var Endabgabe;
                 if (goal instanceof Endabgabe.Goal) {
                     currentGoal = goal;
                     if (currentGoal.collidesWith(Main.avatar.mtxWorld.translation)) {
-                        Main.gameWon();
+                        Main.winGame();
                     }
                 }
             }
         }
-        static gameWon() {
+        static winGame() {
+            ƒ.Loop.stop();
             Main.isGameWon = true;
-            alert("You have won the game!");
-            console.log("You have won the game!");
             Main.cmpBackgroundSound.play(false);
+            Main.cmpWinSound.play(true);
+            //alert("You have won the game!");
+            console.log("You have won the game!");
         }
         static handleBackgroundSound() {
             if (!Main.cmpBackgroundSound.isPlaying && !Main.isGameWon) {
@@ -171,20 +183,21 @@ var Endabgabe;
                 }
             }
         }
-        static rotateMaze() {
+        static rotateMaze(_deltaTime) {
             let rotationTransform;
+            let scaledRotationIncrement = Main.rotationIncrement * _deltaTime;
             switch (Main.rotationAxis) {
                 case Axis.X:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(scaledRotationIncrement);
                     break;
                 case Axis["-X"]:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(-Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_X(-scaledRotationIncrement);
                     break;
                 case Axis.Z:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(scaledRotationIncrement);
                     break;
                 case Axis["-Z"]:
-                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(-Main.rotationIncrement);
+                    rotationTransform = ƒ.Matrix4x4.ROTATION_Z(-scaledRotationIncrement);
                     break;
                 default:
                     break;
@@ -192,8 +205,8 @@ var Endabgabe;
             for (let child of Main.createdElements.getChildren()) {
                 child.cmpTransform.transform(rotationTransform, ƒ.BASE.NODE, Main.rotator);
             }
-            Main.rotationSum += Main.rotationIncrement;
-            Main.rotationIncrement += Main.rotationAcceleration;
+            Main.rotationSum += scaledRotationIncrement;
+            Main.rotationIncrement += Main.rotationAcceleration * _deltaTime;
             if (Main.rotationSum >= 90) {
                 Main.finishRotation();
             }
@@ -231,37 +244,39 @@ var Endabgabe;
             Main.rotator.mtxLocal.translate(rotationPoint);
             Main.cmpRotateSound.play(true);
         }
-        static handleMovementKeys() {
+        static handleMovementKeys(_deltaTime) {
             let playerForward = ƒ.Vector3.Z();
             let playerLeft = ƒ.Vector3.X();
             playerForward.transform(Main.avatar.mtxWorld, false);
             playerLeft.transform(Main.avatar.mtxWorld, false);
+            playerForward.scale(_deltaTime);
+            playerLeft.scale(_deltaTime);
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
-                playerForward.scale(Main.acceleration);
+                playerForward.scale(Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerForward);
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S])) {
-                playerForward.scale(-Main.acceleration);
+                playerForward.scale(-Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerForward);
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A])) {
-                playerLeft.scale(Main.acceleration);
+                playerLeft.scale(Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerLeft);
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D])) {
-                playerLeft.scale(-Main.acceleration);
+                playerLeft.scale(-Main.movementAcceleration);
                 Main.avatarRb.addVelocity(playerLeft);
             }
             let velo = Main.avatarRb.getVelocity();
             let xZVelo = new ƒ.Vector2(velo.x, velo.z);
             if (xZVelo.magnitude >= 0) {
-                xZVelo.scale(1 - Main.drag);
+                xZVelo.scale(1 - Main.movementDrag);
                 let newVelo = new ƒ.Vector3(xZVelo.x, velo.y, xZVelo.y);
                 Main.avatarRb.setVelocity(newVelo);
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
                 if (Main.isGrounded) {
-                    Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, Main.jumpForce, 0));
+                    Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, Main.jumpForce * _deltaTime, 0));
                 }
             }
         }
@@ -272,13 +287,14 @@ var Endabgabe;
             for (let child of Main.createdElements.getChildren()) {
                 let currentElement = child;
                 currentElement.addRigidbodies();
+                ƒ.Physics.adjustTransforms(child, true);
             }
         }
         static createAvatar() {
             Main.avatarRb = new ƒ.ComponentRigidbody(65, ƒ.PHYSICS_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CAPSULE, ƒ.PHYSICS_GROUP.DEFAULT);
-            Main.avatarRb.restitution = 0.2;
+            Main.avatarRb.restitution = 0.1;
             Main.avatarRb.rotationInfluenceFactor = ƒ.Vector3.ZERO();
-            Main.avatarRb.friction = 5;
+            Main.avatarRb.friction = 0.1;
             Main.avatar = new ƒ.Node("Avatar");
             Main.avatar.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(0))));
             let scale = new ƒ.Vector3(1, 1, 1);

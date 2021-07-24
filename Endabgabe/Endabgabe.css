@@ -3,14 +3,32 @@ html, body {
   margin: 0px;
   width: 100%;
   height: 100%;
- overflow: hidden;
+  overflow: hidden;
 }
 
-dialog { 
-  text-align: center; 
+dialog {
+  text-align: center;
 }
 
-canvas.fullscreen { 
-  width: 100vw; 
-  height: 100vh; 
+canvas.fullscreen {
+  width: 100vw;
+  height: 100vh;
+}
+
+#hardcoreMode {
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  width: 300px;
+  font-size: 25px!important;
+  background-color: rgb(117, 145, 155);
+  text-align: center;
+  border-style: solid;
+  border-radius: 10px;
+}
+
+input {
+  font-size: 200px!important;
+  width: 30px;
+  height: 30px;
 }

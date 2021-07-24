@@ -26,7 +26,7 @@ namespace Endabgabe {
 
         public static elementMap: ElementMap = {};
 
-        public static berryID: string = "Graph|2021-07-24T05:52:24.981Z|95780";
+        public static berryID: string = "Graph|2021-07-24T09:30:40.324Z|12995";
         public static berry: ƒ.Graph;
 
 
