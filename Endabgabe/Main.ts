@@ -1,7 +1,6 @@
 namespace Endabgabe {
 
 
-
     export class Main {
 
         public static rootGraphId: string = "Graph|2021-07-23T14:18:52.304Z|39896";
