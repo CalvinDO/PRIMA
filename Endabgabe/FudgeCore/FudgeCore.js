@@ -3117,6 +3117,7 @@ var FudgeCore;
     class Audio extends FudgeCore.Mutable {
         constructor(_url) {
             super();
+            console.log(_url);
             this.name = "Audio";
             this.idResource = undefined;
             this.buffer = undefined;
