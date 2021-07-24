@@ -51,7 +51,7 @@ var Endabgabe;
             Endabgabe.Main.createdElements = new ƒ.Node("CreatedElements");
             Endabgabe.Main.goals = new ƒ.Node("Goals");
             // Main.createdElements.addComponent(new ƒ.ComponentTransform);
-            let response = await fetch("/PRIMA/elements.dae");
+            let response = await fetch("/PRIMA/Endabgabe/elements.dae");
             let xmlText = await response.text();
             let xml = new DOMParser().parseFromString(xmlText, "text/xml");
             let visualScene = xml.querySelector("library_visual_scenes #Scene");

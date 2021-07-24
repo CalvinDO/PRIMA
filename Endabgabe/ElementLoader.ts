@@ -70,7 +70,7 @@ namespace Endabgabe {
             Main.goals = new ƒ.Node("Goals");
             // Main.createdElements.addComponent(new ƒ.ComponentTransform);
 
-            let response: Response = await fetch("/PRIMA/elements.dae");
+            let response: Response = await fetch("/PRIMA/Endabgabe/elements.dae");
             let xmlText: string = await response.text();
 
             let xml: XMLDocument = new DOMParser().parseFromString(xmlText, "text/xml");
