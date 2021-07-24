@@ -16,12 +16,11 @@ Calvin Dell'Oro
 
 - [Zip](https://calvindo.github.io/PRIMA/)
 
-## Lokal 
-1. download zip or clone repository via HTTPS/SSH
-2. run console command: "npm update"
-3. open repository via vs code
-4. go to the html file and comment in the out commented 
-5. run live server via vs code
+## Lokal starten
+1. Repository mit HTTPS/SSH clonen oder die Zip herunterladen
+3. Repository in VSC Öffnen
+4. Bei allen Ressourcen Links (Script, dae, audio, json, css, usw.) die root /PRIMA/ entfernen
+5. Auf der HTML seite 
 6. follow the instructions in game
 
 
