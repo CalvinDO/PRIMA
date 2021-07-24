@@ -10,9 +10,9 @@ Calvin Dell'Oro
 
 - [Pages](https://calvindo.github.io/PRIMA/)
 
-- [Designdokument](https://calvindo.github.io/PRIMA/blob/main/Designdokument.pdf)
+- [Designdokument](https://github.com/CalvinDO/PRIMA/blob/main/Designdokument.pdf)
 
-- [Scripts & Ressourcen](https://calvindo.github.io/PRIMA/tree/main/Endabgabe/)
+- [Scripts & Ressourcen](https://calvindo.github.io/PRIMA/Endabgabe/tree/main/Endabgabe/)
 
 - [Zip](https://calvindo.github.io/PRIMA/)
 
