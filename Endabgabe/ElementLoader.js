@@ -17,19 +17,19 @@ var Endabgabe;
         static elementIDMap = {};
         static elementMap = {};
         static fillElementMapIds() {
-            this.elementIDMap[ElementType.DeadEnd] = "Graph|2021-07-22T17:46:11.732Z|64322";
-            this.elementIDMap[ElementType.Tunnel] = "Graph|2021-07-22T17:51:51.065Z|73974";
-            this.elementIDMap[ElementType.Turn] = "Graph|2021-07-22T18:13:45.296Z|39193";
-            this.elementIDMap[ElementType.L] = "Graph|2021-07-22T18:14:56.738Z|97747";
-            this.elementIDMap[ElementType.T] = "Graph|2021-07-22T18:15:37.590Z|66393";
-            this.elementIDMap[ElementType.Tripod] = "Graph|2021-07-22T18:20:21.900Z|43495";
-            this.elementIDMap[ElementType.X] = "Graph|2021-07-22T18:20:25.830Z|95475";
-            this.elementIDMap[ElementType.OneBlocker] = "Graph|2021-07-22T18:21:04.501Z|04478";
-            this.elementIDMap[ElementType.Void] = "Graph|2021-07-22T18:21:39.646Z|92219";
+            ElementLoader.elementIDMap[ElementType.DeadEnd] = "Graph|2021-07-22T17:46:11.732Z|64322";
+            ElementLoader.elementIDMap[ElementType.Tunnel] = "Graph|2021-07-22T17:51:51.065Z|73974";
+            ElementLoader.elementIDMap[ElementType.Turn] = "Graph|2021-07-22T18:13:45.296Z|39193";
+            ElementLoader.elementIDMap[ElementType.L] = "Graph|2021-07-22T18:14:56.738Z|97747";
+            ElementLoader.elementIDMap[ElementType.T] = "Graph|2021-07-22T18:15:37.590Z|66393";
+            ElementLoader.elementIDMap[ElementType.Tripod] = "Graph|2021-07-22T18:20:21.900Z|43495";
+            ElementLoader.elementIDMap[ElementType.X] = "Graph|2021-07-22T18:20:25.830Z|95475";
+            ElementLoader.elementIDMap[ElementType.OneBlocker] = "Graph|2021-07-22T18:21:04.501Z|04478";
+            ElementLoader.elementIDMap[ElementType.Void] = "Graph|2021-07-22T18:21:39.646Z|92219";
         }
         static fillElementResources() {
-            for (let key in this.elementIDMap) {
-                this.elementMap[key] = ƒ.Project.resources[this.elementIDMap[key]];
+            for (let key in ElementLoader.elementIDMap) {
+                ElementLoader.elementMap[key] = ƒ.Project.resources[ElementLoader.elementIDMap[key]];
             }
         }
         static stringToElementType(_name) {
@@ -42,30 +42,32 @@ var Endabgabe;
         }
         static findElementByXMLID(_name) {
             let nameFirstPart = _name.split("_")[0];
-            let foundElementType = this.stringToElementType(nameFirstPart);
-            let output = this.elementMap[foundElementType];
+            let foundElementType = ElementLoader.stringToElementType(nameFirstPart);
+            let output = ElementLoader.elementMap[foundElementType];
             output.name = nameFirstPart;
             return output;
         }
         static async init() {
-            this.fillElementMapIds();
-            this.fillElementResources();
+            ElementLoader.fillElementMapIds();
+            ElementLoader.fillElementResources();
         }
         static async createElements() {
             Endabgabe.Main.createdElements = new ƒ.Node("CreatedElements");
+            Endabgabe.Main.createdElements.addComponent(new ƒ.ComponentTransform);
             let response = await fetch("elements.dae");
             let xmlText = await response.text();
             let xml = new DOMParser().parseFromString(xmlText, "text/xml");
             let visualScene = xml.querySelector("library_visual_scenes #Scene");
             for (let positionNode of visualScene.children) {
-                let newElement = await ƒ.Project.createGraphInstance(this.findElementByXMLID(positionNode.id));
+                let nameFirstPart = positionNode.id.split("_")[0];
+                let foundElementType = ElementLoader.stringToElementType(nameFirstPart);
                 let rotations = Array.prototype.slice.call(positionNode.querySelectorAll("rotate"));
                 let rotNumbers = rotations.map(axis => +axis.textContent.split(" ")[3]);
                 let rotation = new ƒ.Vector3(rotNumbers[2], rotNumbers[1], rotNumbers[0]);
                 let translations = positionNode.querySelector("translate").textContent.split(" ").map(axis => +axis / 2);
                 let translation = new ƒ.Vector3(translations[0], translations[1], translations[2]);
-                newElement.cmpTransform.mtxLocal.translate(translation);
-                newElement.cmpTransform.mtxLocal.rotate(rotation);
+                let newElement = new Endabgabe.Element(foundElementType, translation, rotation);
+                await newElement.setData();
                 Endabgabe.Main.createdElements.appendChild(newElement);
             }
             Endabgabe.Main.root.appendChild(Endabgabe.Main.createdElements);
