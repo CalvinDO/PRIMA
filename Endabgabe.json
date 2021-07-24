@@ -469,7 +469,7 @@
   },
   "TextureImage|2021-07-24T02:36:08.641Z|99731": {
     "ƒ.TextureImage": {
-      "url": "PRIMA\\Endabgabe\\Textures\\greebles.jpg",
+      "url": "Endabgabe\\Textures\\greebles.jpg",
       "idResource": "TextureImage|2021-07-24T02:36:08.641Z|99731",
       "name": "Textures\\greebles.jpg",
       "type": "TextureImage"
@@ -4366,7 +4366,7 @@
   },
   "TextureImage|2021-07-24T05:16:49.101Z|42139": {
     "ƒ.TextureImage": {
-      "url": "PRIMA\\Endabgabe\\Textures\\berry.jpg",
+      "url": "Endabgabe\\Textures\\berry.jpg",
       "idResource": "TextureImage|2021-07-24T05:16:49.101Z|42139",
       "name": "Textures\\berry.jpg",
       "type": "TextureImage"
