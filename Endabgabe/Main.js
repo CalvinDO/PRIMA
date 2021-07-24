@@ -189,7 +189,6 @@ var Endabgabe;
             let avatarAxis;
             let playerForward = ƒ.Vector3.Z();
             playerForward.transform(Main.avatar.mtxWorld, false);
-            console.log(playerForward.toString());
             if (Math.abs(playerForward.z) > Math.abs(playerForward.x)) {
                 if (playerForward.z > 0) {
                     avatarAxis = Endabgabe.Axis["-Z"];
@@ -211,22 +210,6 @@ var Endabgabe;
         }
         static getModuloedAxis(_dirtyAxis) {
             return (_dirtyAxis % 4);
-        }
-        static isInQuarterOfAngle(_input, _angle) {
-            let realInput = _input;
-            if (_input < 0) {
-                realInput = 360 + _input;
-            }
-            if (_angle == 0) {
-                if ((realInput > 360 - 45) || (realInput < _angle + 45)) {
-                    return true;
-                }
-            }
-            console.log("input", _input, "angle", _angle);
-            if (realInput > _angle - 45 && realInput < _angle + 45) {
-                return true;
-            }
-            return false;
         }
         static rotateMaze(_deltaTime) {
             let rotationTransform;

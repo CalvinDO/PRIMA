@@ -280,8 +280,6 @@ namespace Endabgabe {
             playerForward.transform(Main.avatar.mtxWorld, false);
 
 
-            console.log(playerForward.toString());
-
             if (Math.abs(playerForward.z) > Math.abs(playerForward.x)) {
 
                 if (playerForward.z > 0) {
@@ -309,29 +307,8 @@ namespace Endabgabe {
 
         }
 
-
-
         private static getModuloedAxis(_dirtyAxis: Axis): Axis {
             return (_dirtyAxis % 4);
-        }
-
-        private static isInQuarterOfAngle(_input: number, _angle: number): boolean {
-            let realInput: number = _input;
-
-            if (_input < 0) {
-                realInput = 360 + _input;
-            }
-
-            if (_angle == 0) {
-                if ((realInput > 360 - 45) || (realInput < _angle + 45)) {
-                    return true;
-                }
-            }
-            console.log("input", _input, "angle", _angle);
-            if (realInput > _angle - 45 && realInput < _angle + 45) {
-                return true;
-            }
-            return false;
         }
 
         private static rotateMaze(_deltaTime: number): void {
