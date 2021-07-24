@@ -1,0 +1,4 @@
+Beim erstmaligen Klicken auf den Canvas wird der Mauszeiger gesperrt.
+
+Camera Rotation:
+    Mouse Move

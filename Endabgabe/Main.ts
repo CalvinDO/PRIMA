@@ -43,9 +43,9 @@ namespace Endabgabe {
         public static rotator: ƒ.Node;
 
 
-        public static rotateSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/rotate.wav");
-        public static backgroundSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/background.wav");
-        public static winSound: ƒ.Audio = new ƒ.Audio("/Endabgabe/Audio/win.mp3");
+        public static rotateSound: ƒ.Audio = new ƒ.Audio("/PRIMA/Endabgabe/Audio/rotate.wav");
+        public static backgroundSound: ƒ.Audio = new ƒ.Audio("/PRIMA/Endabgabe/Audio/background.wav");
+        public static winSound: ƒ.Audio = new ƒ.Audio("/PRIMA/Endabgabe/Audio/win.mp3");
 
         public static cmpRotateSound: ƒ.ComponentAudio = new ƒ.ComponentAudio(Main.rotateSound);
         public static cmpBackgroundSound: ƒ.ComponentAudio = new ƒ.ComponentAudio(Main.backgroundSound);
