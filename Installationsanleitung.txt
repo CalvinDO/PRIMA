@@ -1,0 +1,7 @@
+Um Decombobulated Space Station lokal zu starten:
+
+1. Repository mit HTTPS/SSH clonen oder die Zip herunterladen
+3. Repository in VSC Öffnen
+4. Bei allen Links auf Ressourcen (Script, dae, audio, json, css, usw.) die root /PRIMA/ entfernen
+5. Auf der HTML seite 
+6. follow the instructions in game

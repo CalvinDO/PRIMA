@@ -54,7 +54,7 @@ BLENDER IMPORT
     Am besten die blend datei aus dem Repo benutzen, um die 9 fundamentalen Elemente nicht erneut bauen zu müssen.
     Diese dann kopieren, und beliebig rotieren.
     Mesh-Verschiebungen im Edit Mode sollten vermieden werden.
-
+    Der Charakter startet bei Position (0, 0, 0), deswegen sollte sich der gewünschte Start im Labyrinth auch an dieser Stelle befinden.
 
     !WICHTIG!
 
