@@ -18,11 +18,13 @@ var Endabgabe;
         static avatarHeadHeight = 0.5;
         static cmpCamera;
         static viewport;
+        static isGrounded;
+        static jumpForce = 20;
         static rotationSpeed = 0.1;
         static maxXRotation = 85;
         static acceleration = 1;
         static drag = 0.1;
-        static avatarScale = 0.4;
+        static avatarScale = 0.35;
         static collidingElement = null;
         static rotating;
         static rotationSum = 0;
@@ -43,7 +45,7 @@ var Endabgabe;
             let canvas = document.querySelector("canvas");
             Main.cmpCamera = new ƒ.ComponentCamera();
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
-            Main.cmpCamera.projectCentral(16 / 9, 70);
+            Main.cmpCamera.projectCentral(16 / 9, 80);
             Main.createAvatar();
             Main.createRigidbodies();
             Main.setupAudio();
@@ -104,6 +106,7 @@ var Endabgabe;
         }
         static update() {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
+            Main.playerIsGroundedRaycast();
             Main.handleMovementKeys();
             Main.handleRotationKeys();
             Main.handleBackgroundSound();
@@ -111,9 +114,15 @@ var Endabgabe;
             if (Main.rotating) {
                 Main.rotateMaze();
             }
-            if (Endabgabe.ElementLoader.newBerry) {
-            }
             Main.viewport.draw();
+        }
+        static playerIsGroundedRaycast() {
+            let hitInfo;
+            hitInfo = ƒ.Physics.raycast(this.avatarRb.getPosition(), new ƒ.Vector3(0, -1, 0), Main.avatarScale + 0.06);
+            if (hitInfo.hit)
+                Main.isGrounded = true;
+            else
+                Main.isGrounded = false;
         }
         static handleGoals() {
             for (let goal of Main.createdElements.getChildren()) {
@@ -250,8 +259,11 @@ var Endabgabe;
                 let newVelo = new ƒ.Vector3(xZVelo.x, velo.y, xZVelo.y);
                 Main.avatarRb.setVelocity(newVelo);
             }
-            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
-                Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 35, 0));
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
+                if (Main.isGrounded) {
+                    Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, Main.jumpForce, 0));
+                }
+            }
         }
         static createRigidbodies() {
             if (!Main.createdElements) {

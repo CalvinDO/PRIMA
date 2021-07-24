@@ -22,13 +22,16 @@ namespace Endabgabe {
 
         public static viewport: ƒ.Viewport;
 
+        public static isGrounded: boolean;
+        public static jumpForce: number = 20;
+
         public static rotationSpeed: number = 0.1;
         public static maxXRotation: number = 85;
 
         public static acceleration: number = 1;
         public static drag: number = 0.1;
 
-        public static avatarScale: number = 0.4;
+        public static avatarScale: number = 0.35;
 
         public static collidingElement: Element = null;
 
@@ -67,7 +70,7 @@ namespace Endabgabe {
             Main.cmpCamera = new ƒ.ComponentCamera();
 
             Main.cmpCamera.mtxPivot.translateY(Main.avatarHeadHeight);
-            Main.cmpCamera.projectCentral(16 / 9, 70);
+            Main.cmpCamera.projectCentral(16 / 9, 80);
 
             Main.createAvatar();
             Main.createRigidbodies();
@@ -159,6 +162,8 @@ namespace Endabgabe {
         private static update(): void {
             ƒ.Physics.world.simulate(ƒ.Loop.timeFrameReal / 1000);
 
+            Main.playerIsGroundedRaycast();
+
             Main.handleMovementKeys();
             Main.handleRotationKeys();
             Main.handleBackgroundSound();
@@ -168,12 +173,16 @@ namespace Endabgabe {
                 Main.rotateMaze();
             }
 
-            if (ElementLoader.newBerry) {
-
-            }
-
-
             Main.viewport.draw();
+        }
+
+        private static playerIsGroundedRaycast(): void {
+            let hitInfo: ƒ.RayHitInfo;
+            hitInfo = ƒ.Physics.raycast(this.avatarRb.getPosition(), new ƒ.Vector3(0, - 1, 0), Main.avatarScale + 0.06);
+            if (hitInfo.hit)
+                Main.isGrounded = true;
+            else
+                Main.isGrounded = false;
         }
 
         private static handleGoals(): void {
@@ -357,9 +366,11 @@ namespace Endabgabe {
                 Main.avatarRb.setVelocity(newVelo);
             }
 
-            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE]))
-                Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, 35, 0));
-
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
+                if (Main.isGrounded) {
+                    Main.avatarRb.applyLinearImpulse(new ƒ.Vector3(0, Main.jumpForce, 0));
+                }
+            }
         }
 
         private static createRigidbodies() {

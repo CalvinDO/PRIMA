@@ -18,7 +18,6 @@ var Endabgabe;
         static elementMap = {};
         static berryID = "Graph|2021-07-24T05:52:24.981Z|95780";
         static berry;
-        static newBerry;
         static fillElementMapIds() {
             ElementLoader.elementIDMap[ElementType.DeadEnd] = "Graph|2021-07-22T17:46:11.732Z|64322";
             ElementLoader.elementIDMap[ElementType.Tunnel] = "Graph|2021-07-22T17:51:51.065Z|73974";

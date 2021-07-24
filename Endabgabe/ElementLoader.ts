@@ -28,7 +28,6 @@ namespace Endabgabe {
 
         public static berryID: string = "Graph|2021-07-24T05:52:24.981Z|95780";
         public static berry: ƒ.Graph;
-        public static newBerry: ƒ.Node;
 
 
         private static fillElementMapIds(): void {
