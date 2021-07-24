@@ -152,23 +152,32 @@ var Endabgabe;
             }
         }
         static handleRotationKeys() {
-            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.ARROW_UP, ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT,
+                ƒ.KEYBOARD_CODE.ARROW_RIGHT,
+                ƒ.KEYBOARD_CODE.ARROW_UP,
+                ƒ.KEYBOARD_CODE.ARROW_DOWN,
+                ƒ.KEYBOARD_CODE.Q,
+                ƒ.KEYBOARD_CODE.E,
+                ƒ.KEYBOARD_CODE.CTRL_LEFT,
+                ƒ.KEYBOARD_CODE.SHIFT_LEFT,
+                ƒ.KEYBOARD_CODE.C
+            ])) {
                 if (Main.rotating) {
                     return;
                 }
                 for (let child of Main.createdElements.getChildren()) {
                     let currentElement = child;
                     if (currentElement.collidesWith(Main.avatar.mtxWorld.translation)) {
-                        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+                        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.Q])) {
                             Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis["-Z"]);
                         }
-                        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+                        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.E])) {
                             Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis.Z);
                         }
-                        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_UP])) {
+                        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_UP, ƒ.KEYBOARD_CODE.SHIFT_LEFT])) {
                             Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis.X);
                         }
-                        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
+                        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_DOWN, ƒ.KEYBOARD_CODE.CTRL_LEFT])) {
                             Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis["-X"]);
                         }
                         Main.startRotation(currentElement);

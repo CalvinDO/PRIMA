@@ -5,13 +5,13 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.91.2 commit date:2021-01-19, commit time:16:15, hash:5be9ef417703</authoring_tool>
     </contributor>
-    <created>2021-07-24T11:47:17</created>
-    <modified>2021-07-24T11:47:17</modified>
+    <created>2021-07-24T18:35:54</created>
+    <modified>2021-07-24T18:35:54</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
   <library_effects>
-    <effect id="Material_019-effect">
+    <effect id="Material_004-effect">
       <profile_COMMON>
         <technique sid="common">
           <lambert>
@@ -28,7 +28,7 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="Material_004-effect">
+    <effect id="Material_019-effect">
       <profile_COMMON>
         <technique sid="common">
           <lambert>
@@ -150,11 +150,11 @@
   </library_effects>
   <library_images/>
   <library_materials>
-    <material id="Material_019-material" name="Material.019">
-      <instance_effect url="#Material_019-effect"/>
-    </material>
     <material id="Material_004-material" name="Material.004">
       <instance_effect url="#Material_004-effect"/>
+    </material>
+    <material id="Material_019-material" name="Material.019">
+      <instance_effect url="#Material_019-effect"/>
     </material>
     <material id="Material_010-material" name="Material.010">
       <instance_effect url="#Material_010-effect"/>
@@ -176,6 +176,92 @@
     </material>
   </library_materials>
   <library_geometries>
+    <geometry id="Tunnel_007-mesh" name="Tunnel.007">
+      <mesh>
+        <source id="Tunnel_007-mesh-positions">
+          <float_array id="Tunnel_007-mesh-positions-array" count="99">-1.62921e-7 0 0 1.2 1 0.9999998 1.2 -1 0.9999998 1 1 0.9999998 1 -1 0.9999998 1.2 1 -1 1.2 -1 -1 0.9999999 1 -1 0.9999999 -1 -1 -1 -0.9999999 -0.9999999 -0.9999999 -0.9999998 1 -1 -1.2 -0.9999999 -0.9999999 -1.2 1 0.9999999 -0.9999999 -1 1 -0.9999998 0.9999998 0.9999999 -1.2 -1 1 -1.2 0.9999998 -1 1.2 -0.9999999 -0.9999999 1.2 1 -1 0.9999995 -0.9999999 -0.9999999 0.9999997 1 0.9999999 1.2 -1 1 1.2 0.9999998 0.9999999 0.9999995 -1 1 0.9999997 0.9999998 -0.9999999 1 1 -0.9999999 -1 1 -1.2 1 1 -1.2 -1 1 -1 1 -0.9999999 -1 -1 -0.9999999 -1.2 1 -0.9999999 -1.2 -1 -0.9999999</float_array>
+          <technique_common>
+            <accessor source="#Tunnel_007-mesh-positions-array" count="33" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Tunnel_007-mesh-normals">
+          <float_array id="Tunnel_007-mesh-normals-array" count="54">0 1 0 -1 0 2.38419e-7 0 0 -1 0 -1 0 0 0 1 1 0 -2.38419e-7 0 0 -1 1 0 0 0 0 1 -1 0 2.6077e-7 0 1 0 0 0 -1 0 -1 0 1 0 0 0 0 1 -1 0 2.6077e-7 -1 0 0 1 0 0</float_array>
+          <technique_common>
+            <accessor source="#Tunnel_007-mesh-normals-array" count="18" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Tunnel_007-mesh-map-0">
+          <float_array id="Tunnel_007-mesh-map-0-array" count="192">0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5 0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5 0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5 0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5</float_array>
+          <technique_common>
+            <accessor source="#Tunnel_007-mesh-map-0-array" count="96" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Tunnel_007-mesh-vertices">
+          <input semantic="POSITION" source="#Tunnel_007-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_004-material" count="24">
+          <input semantic="VERTEX" source="#Tunnel_007-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Tunnel_007-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Tunnel_007-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 </vcount>
+          <p>1 0 0 5 0 1 7 0 2 3 0 3 4 1 4 3 1 5 7 1 6 8 1 7 8 2 8 7 2 9 5 2 10 6 2 11 6 3 12 2 3 13 4 3 14 8 3 15 2 4 16 1 4 17 3 4 18 4 4 19 6 5 20 5 5 21 1 5 22 2 5 23 9 6 24 13 6 25 15 6 26 11 6 27 12 3 28 11 3 29 15 3 30 16 3 31 16 7 32 15 7 33 13 7 34 14 7 35 14 8 36 10 8 37 12 8 38 16 8 39 10 9 40 9 9 41 11 9 42 12 9 43 14 10 44 13 10 45 9 10 46 10 10 47 17 11 48 21 11 49 23 11 50 19 11 51 20 12 52 19 12 53 23 12 54 24 12 55 24 13 56 23 13 57 21 13 58 22 13 59 22 14 60 18 14 61 20 14 62 24 14 63 18 15 64 17 15 65 19 15 66 20 15 67 22 0 68 21 0 69 17 0 70 18 0 71 25 0 72 29 0 73 31 0 74 27 0 75 28 16 76 27 16 77 31 16 78 32 16 79 32 2 80 31 2 81 29 2 82 30 2 83 30 3 84 26 3 85 28 3 86 32 3 87 26 4 88 25 4 89 27 4 90 28 4 91 30 17 92 29 17 93 25 17 94 26 17 95</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="Tunnel_004-mesh" name="Tunnel.004">
+      <mesh>
+        <source id="Tunnel_004-mesh-positions">
+          <float_array id="Tunnel_004-mesh-positions-array" count="99">-1.62921e-7 0 0 1.2 1 0.9999998 1.2 -1 0.9999998 1 1 0.9999998 1 -1 0.9999998 1.2 1 -1 1.2 -1 -1 0.9999999 1 -1 0.9999999 -1 -1 -1 -0.9999999 -0.9999999 -0.9999999 -0.9999998 1 -1 -1.2 -0.9999999 -0.9999999 -1.2 1 0.9999999 -0.9999999 -1 1 -0.9999998 0.9999998 0.9999999 -1.2 -1 1 -1.2 0.9999998 -1 1.2 -0.9999999 -0.9999999 1.2 1 -1 0.9999995 -0.9999999 -0.9999999 0.9999997 1 0.9999999 1.2 -1 1 1.2 0.9999998 0.9999999 0.9999995 -1 1 0.9999997 0.9999998 -0.9999999 1 1 -0.9999999 -1 1 -1.2 1 1 -1.2 -1 1 -1 1 -0.9999999 -1 -1 -0.9999999 -1.2 1 -0.9999999 -1.2 -1 -0.9999999</float_array>
+          <technique_common>
+            <accessor source="#Tunnel_004-mesh-positions-array" count="33" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Tunnel_004-mesh-normals">
+          <float_array id="Tunnel_004-mesh-normals-array" count="54">0 1 0 -1 0 2.38419e-7 0 0 -1 0 -1 0 0 0 1 1 0 -2.38419e-7 0 0 -1 1 0 0 0 0 1 -1 0 2.6077e-7 0 1 0 0 0 -1 0 -1 0 1 0 0 0 0 1 -1 0 2.6077e-7 -1 0 0 1 0 0</float_array>
+          <technique_common>
+            <accessor source="#Tunnel_004-mesh-normals-array" count="18" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Tunnel_004-mesh-map-0">
+          <float_array id="Tunnel_004-mesh-map-0-array" count="192">0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5 0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5 0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5 0.625 0.5 0.875 0.5 0.875 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.375 0.25 0.125 0.5 0.375 0.5 0.375 0.75 0.125 0.75 0.375 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.25 0.625 0.25 0.625 0.5 0.375 0.5</float_array>
+          <technique_common>
+            <accessor source="#Tunnel_004-mesh-map-0-array" count="96" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Tunnel_004-mesh-vertices">
+          <input semantic="POSITION" source="#Tunnel_004-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_004-material" count="24">
+          <input semantic="VERTEX" source="#Tunnel_004-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Tunnel_004-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Tunnel_004-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 </vcount>
+          <p>1 0 0 5 0 1 7 0 2 3 0 3 4 1 4 3 1 5 7 1 6 8 1 7 8 2 8 7 2 9 5 2 10 6 2 11 6 3 12 2 3 13 4 3 14 8 3 15 2 4 16 1 4 17 3 4 18 4 4 19 6 5 20 5 5 21 1 5 22 2 5 23 9 6 24 13 6 25 15 6 26 11 6 27 12 3 28 11 3 29 15 3 30 16 3 31 16 7 32 15 7 33 13 7 34 14 7 35 14 8 36 10 8 37 12 8 38 16 8 39 10 9 40 9 9 41 11 9 42 12 9 43 14 10 44 13 10 45 9 10 46 10 10 47 17 11 48 21 11 49 23 11 50 19 11 51 20 12 52 19 12 53 23 12 54 24 12 55 24 13 56 23 13 57 21 13 58 22 13 59 22 14 60 18 14 61 20 14 62 24 14 63 18 15 64 17 15 65 19 15 66 20 15 67 22 0 68 21 0 69 17 0 70 18 0 71 25 0 72 29 0 73 31 0 74 27 0 75 28 16 76 27 16 77 31 16 78 32 16 79 32 2 80 31 2 81 29 2 82 30 2 83 30 3 84 26 3 85 28 3 86 32 3 87 26 4 88 25 4 89 27 4 90 28 4 91 30 17 92 29 17 93 25 17 94 26 17 95</p>
+        </polylist>
+      </mesh>
+    </geometry>
     <geometry id="Tripod_026-mesh" name="Tripod.026">
       <mesh>
         <source id="Tripod_026-mesh-positions">
@@ -8428,6 +8514,38 @@
   </library_geometries>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
+      <node id="Tunnel_003" name="Tunnel.003" type="NODE">
+        <scale sid="scale">1 1 1</scale>
+        <rotate sid="rotationZ">0 0 1 90</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 3.73387e-5</rotate>
+        <translate sid="location">8 -2 -2</translate>
+        <instance_geometry url="#Tunnel_007-mesh" name="Tunnel.003">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_004-material" target="#Material_004-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="Tunnel_002" name="Tunnel.002" type="NODE">
+        <scale sid="scale">1 1 1</scale>
+        <rotate sid="rotationZ">0 0 1 90</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 3.73387e-5</rotate>
+        <translate sid="location">8 -2 0</translate>
+        <instance_geometry url="#Tunnel_004-mesh" name="Tunnel.002">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_004-material" target="#Material_004-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
       <node id="Tripod_018" name="Tripod.018" type="NODE">
         <scale sid="scale">1 1 1</scale>
         <rotate sid="rotationZ">0 0 1 1.00179e-5</rotate>
@@ -8574,9 +8692,9 @@
       </node>
       <node id="Turn_047" name="Turn.047" type="NODE">
         <scale sid="scale">1 1 1</scale>
-        <rotate sid="rotationZ">0 0 1 1.73028e-5</rotate>
-        <rotate sid="rotationY">0 1 0 1.00179e-5</rotate>
-        <rotate sid="rotationX">1 0 0 89.99995</rotate>
+        <rotate sid="rotationZ">0 0 1 -1.00179e-5</rotate>
+        <rotate sid="rotationY">0 1 0 -1.73028e-5</rotate>
+        <rotate sid="rotationX">1 0 0 179.9999</rotate>
         <translate sid="location">8 -2 2</translate>
         <instance_geometry url="#Turn_055-mesh" name="Turn.047">
           <bind_material>
@@ -9294,9 +9412,9 @@
       </node>
       <node id="Turn_026" name="Turn.026" type="NODE">
         <scale sid="scale">1 1 1</scale>
-        <rotate sid="rotationZ">0 0 1 0</rotate>
-        <rotate sid="rotationY">0 1 0 90</rotate>
-        <rotate sid="rotationX">1 0 0 0</rotate>
+        <rotate sid="rotationZ">0 0 1 180</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 90</rotate>
         <translate sid="location">-6 4 0</translate>
         <instance_geometry url="#Turn_034-mesh" name="Turn.026">
           <bind_material>
