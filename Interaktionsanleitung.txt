@@ -1,4 +1,19 @@
 Beim erstmaligen Klicken auf den Canvas wird der Mauszeiger gesperrt.
+Er kann mit dem Mittlerem MouseButton wieder entsperrt werden.
 
-Camera Rotation:
-    Mouse Move
+Kamerarotation:
+    Mausbewegung nach dem erstem Canvas Klicken
+
+Fortbewegung (!Nicht im Harcoremodus!):
+    W,A,S,D -> Vorne, Links, Hinten, Rechts
+    SPACE -> Springen (Nur für kleine Unebenheiten nützlich);
+
+Labyrinth-Rotation:
+    Q -> Roll Left  (Oder ArrowLeft);
+    E -> Roll Right (Oder ArrowRight);
+    LeftShift -> Tilt Down (Oder ArrowUp);
+    LeftCtrl -> Tilt Up  (Oder ArrowDown);(selten gebraucht, nicht intuitiv)
+
+
+
+
