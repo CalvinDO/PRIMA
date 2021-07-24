@@ -12,9 +12,9 @@ Calvin Dell'Oro
 
 - [Designdokument](https://calvindo.github.io/PRIMA/blob/main/Designdokument.pdf)
 
-- [Scripts & Ressourcen](https://jirkadelloro.github.io/Prima/)
+- [Scripts & Ressourcen](https://calvindo.github.io/PRIMA/)
 
-- [Zip](https://jirkadelloro.github.io/Prima/)
+- [Zip](https://calvindo.github.io/PRIMA/)
 
 ## Loka
 1. download zip or clone repository via HTTPS/SSH
