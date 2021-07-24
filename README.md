@@ -14,7 +14,7 @@ Calvin Dell'Oro
 
 - [Scripts & Ressourcen](https://github.com/CalvinDO/PRIMA/tree/main/Endabgabe/)
 
-- [Zip](https://github.com/CalvinDO/PRIMA/blob/main/Designdokument.pdf)
+- [Rar](https://github.com/CalvinDO/PRIMA/blob/main/DiscombobulatedSpaceStation.rar)
 
 ## Lokal starten
 1. Repository mit HTTPS/SSH clonen oder die Zip herunterladen
