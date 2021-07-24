@@ -58,15 +58,6 @@ namespace Endabgabe {
             return ElementType.Void;
         }
 
-        private static findElementByXMLID(_name: string): ƒ.Graph {
-            let nameFirstPart: string = _name.split("_")[0];
-
-            let foundElementType: ElementType = ElementLoader.stringToElementType(nameFirstPart);
-            let output: ƒ.Graph = ElementLoader.elementMap[foundElementType];
-            output.name = nameFirstPart;
-            return output;
-        }
-
         public static async init(): Promise<void> {
             ElementLoader.fillElementMapIds();
             ElementLoader.fillElementResources();

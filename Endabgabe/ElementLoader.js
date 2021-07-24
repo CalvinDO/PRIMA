@@ -42,13 +42,6 @@ var Endabgabe;
             }
             return ElementType.Void;
         }
-        static findElementByXMLID(_name) {
-            let nameFirstPart = _name.split("_")[0];
-            let foundElementType = ElementLoader.stringToElementType(nameFirstPart);
-            let output = ElementLoader.elementMap[foundElementType];
-            output.name = nameFirstPart;
-            return output;
-        }
         static async init() {
             ElementLoader.fillElementMapIds();
             ElementLoader.fillElementResources();
