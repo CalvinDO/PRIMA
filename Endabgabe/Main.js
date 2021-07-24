@@ -1,13 +1,6 @@
 "use strict";
 var Endabgabe;
 (function (Endabgabe) {
-    let Axis;
-    (function (Axis) {
-        Axis[Axis["X"] = 0] = "X";
-        Axis[Axis["Z"] = 1] = "Z";
-        Axis[Axis["-X"] = 2] = "-X";
-        Axis[Axis["-Z"] = 3] = "-Z";
-    })(Axis = Endabgabe.Axis || (Endabgabe.Axis = {}));
     class Main {
         static rootGraphId = "Graph|2021-07-23T14:18:52.304Z|39896";
         static root;
@@ -167,36 +160,79 @@ var Endabgabe;
                     let currentElement = child;
                     if (currentElement.collidesWith(Main.avatar.mtxWorld.translation)) {
                         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-                            Main.rotationAxis = Axis["-Z"];
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis["-Z"]);
                         }
                         else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-                            Main.rotationAxis = Axis.Z;
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis.Z);
                         }
                         else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_UP])) {
-                            Main.rotationAxis = Axis["-X"];
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis.X);
                         }
                         else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
-                            Main.rotationAxis = Axis.X;
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Endabgabe.Axis["-X"]);
                         }
                         Main.startRotation(currentElement);
                     }
                 }
             }
         }
+        static getOrientatedAxisFrom(_axis) {
+            let avatarAxis;
+            let playerForward = ƒ.Vector3.Z();
+            playerForward.transform(Main.avatar.mtxWorld, false);
+            console.log(playerForward.toString());
+            if (Math.abs(playerForward.z) > Math.abs(playerForward.x)) {
+                if (playerForward.z > 0) {
+                    avatarAxis = Endabgabe.Axis["-Z"];
+                }
+                else {
+                    avatarAxis = Endabgabe.Axis.Z;
+                }
+            }
+            else {
+                if (playerForward.x > 0) {
+                    avatarAxis = Endabgabe.Axis["-X"];
+                }
+                else {
+                    avatarAxis = Endabgabe.Axis.X;
+                }
+            }
+            let resultingAxis = avatarAxis + _axis;
+            return Main.getModuloedAxis(resultingAxis);
+        }
+        static getModuloedAxis(_dirtyAxis) {
+            return (_dirtyAxis % 4);
+        }
+        static isInQuarterOfAngle(_input, _angle) {
+            let realInput = _input;
+            if (_input < 0) {
+                realInput = 360 + _input;
+            }
+            if (_angle == 0) {
+                if ((realInput > 360 - 45) || (realInput < _angle + 45)) {
+                    return true;
+                }
+            }
+            console.log("input", _input, "angle", _angle);
+            if (realInput > _angle - 45 && realInput < _angle + 45) {
+                return true;
+            }
+            return false;
+        }
         static rotateMaze(_deltaTime) {
             let rotationTransform;
             let scaledRotationIncrement = Main.rotationIncrement * _deltaTime;
             switch (Main.rotationAxis) {
-                case Axis.X:
+                case Endabgabe.Axis.X:
                     rotationTransform = ƒ.Matrix4x4.ROTATION_X(scaledRotationIncrement);
                     break;
-                case Axis["-X"]:
+                case Endabgabe.Axis["-X"]:
                     rotationTransform = ƒ.Matrix4x4.ROTATION_X(-scaledRotationIncrement);
                     break;
-                case Axis.Z:
+                case Endabgabe.Axis.Z:
                     rotationTransform = ƒ.Matrix4x4.ROTATION_Z(scaledRotationIncrement);
                     break;
-                case Axis["-Z"]:
+                case Endabgabe.Axis["-Z"]:
                     rotationTransform = ƒ.Matrix4x4.ROTATION_Z(-scaledRotationIncrement);
                     break;
                 default:
@@ -216,16 +252,16 @@ var Endabgabe;
             let overflow = Main.rotationSum - 90;
             let rotationOverflow;
             switch (Main.rotationAxis) {
-                case Axis.X:
+                case Endabgabe.Axis.X:
                     rotationOverflow = ƒ.Matrix4x4.ROTATION_X(-overflow);
                     break;
-                case Axis["-X"]:
+                case Endabgabe.Axis["-X"]:
                     rotationOverflow = ƒ.Matrix4x4.ROTATION_X(overflow);
                     break;
-                case Axis.Z:
+                case Endabgabe.Axis.Z:
                     rotationOverflow = ƒ.Matrix4x4.ROTATION_Z(-overflow);
                     break;
-                case Axis["-Z"]:
+                case Endabgabe.Axis["-Z"]:
                     rotationOverflow = ƒ.Matrix4x4.ROTATION_Z(overflow);
                     break;
                 default:

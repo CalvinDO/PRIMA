@@ -1,8 +1,6 @@
 namespace Endabgabe {
 
-    export enum Axis {
-        X, Z, "-X", "-Z"
-    }
+
 
     export class Main {
 
@@ -242,17 +240,20 @@ namespace Endabgabe {
                     if (currentElement.collidesWith(Main.avatar.mtxWorld.translation)) {
 
                         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-                            Main.rotationAxis = Axis["-Z"]
+
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Axis["-Z"]);
 
                         } else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-                            Main.rotationAxis = Axis.Z;
+
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Axis.Z);
 
                         } else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_UP])) {
-                            Main.rotationAxis = Axis["-X"];
+
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Axis.X);
 
                         } else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
-                            Main.rotationAxis = Axis.X;
 
+                            Main.rotationAxis = Main.getOrientatedAxisFrom(Axis["-X"]);
                         }
 
                         Main.startRotation(currentElement);
@@ -261,6 +262,68 @@ namespace Endabgabe {
             }
         }
 
+        private static getOrientatedAxisFrom(_axis: Axis): Axis {
+
+            let avatarAxis: Axis;
+
+
+            let playerForward: ƒ.Vector3 = ƒ.Vector3.Z();
+            playerForward.transform(Main.avatar.mtxWorld, false);
+
+
+            console.log(playerForward.toString());
+
+            if (Math.abs(playerForward.z) > Math.abs(playerForward.x)) {
+
+                if (playerForward.z > 0) {
+                    avatarAxis = Axis["-Z"];
+                } else {
+                    avatarAxis = Axis.Z;
+                }
+
+            } else {
+
+                if (playerForward.x > 0) {
+                    avatarAxis = Axis["-X"];
+                } else {
+                    avatarAxis = Axis.X;
+                }
+            }
+
+
+
+
+            let resultingAxis: Axis = avatarAxis + _axis;
+
+           
+            return Main.getModuloedAxis(resultingAxis);
+
+        }
+
+
+
+        private static getModuloedAxis(_dirtyAxis: Axis): Axis {
+            return (_dirtyAxis % 4);
+        }
+
+        private static isInQuarterOfAngle(_input: number, _angle: number): boolean {
+            let realInput: number = _input;
+
+            if (_input < 0) {
+                realInput = 360 + _input;
+            }
+
+            if (_angle == 0) {
+                if ((realInput > 360 - 45) || (realInput < _angle + 45)) {
+                    return true;
+                }
+            }
+            console.log("input", _input, "angle", _angle);
+            if (realInput > _angle - 45 && realInput < _angle + 45) {
+                return true;
+            }
+            return false;
+        }
 
         private static rotateMaze(_deltaTime: number): void {
 
