@@ -13,8 +13,8 @@
       "shader": "ShaderFlat",
       "coat": {
         "ƒ.CoatColored": {
-          "name": "Coat",
-          "color": "[0.43529411764705883, 0.5176470588235295, 0.4235294117647059, 1]"
+          "name": "assdf",
+          "color": "[0.8196078431372549, 0.8196078431372549, 0.8196078431372549, 1]"
         }
       }
     }
@@ -520,7 +520,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -576,7 +576,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -632,7 +632,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -688,7 +688,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -744,7 +744,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -825,7 +825,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -881,7 +881,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -937,7 +937,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -993,7 +993,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1074,7 +1074,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1130,7 +1130,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1186,7 +1186,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1242,7 +1242,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1323,7 +1323,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1379,7 +1379,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1435,7 +1435,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1718,7 +1718,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1774,7 +1774,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1855,7 +1855,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1911,7 +1911,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -1992,7 +1992,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2021-07-22T16:35:56.981Z|82934"
+                    "idMaterial": "Material|2021-07-24T02:36:57.895Z|49733"
                   }
                 }
               ]
@@ -4414,6 +4414,28 @@
       ],
       "idResource": "Graph|2021-07-23T18:40:28.353Z|85227",
       "type": "Graph"
+    }
+  },
+  "TextureImage|2021-07-24T02:36:08.641Z|99731": {
+    "ƒ.TextureImage": {
+      "url": "Textures\\greebles.jpg",
+      "idResource": "TextureImage|2021-07-24T02:36:08.641Z|99731",
+      "name": "Textures\\greebles.jpg",
+      "type": "TextureImage"
+    }
+  },
+  "Material|2021-07-24T02:36:57.895Z|49733": {
+    "ƒ.Material": {
+      "name": "Greebles",
+      "idResource": "Material|2021-07-24T02:36:57.895Z|49733",
+      "shader": "ShaderTexture",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "name": "Coat",
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2021-07-24T02:36:08.641Z|99731"
+        }
+      }
     }
   }
 }
