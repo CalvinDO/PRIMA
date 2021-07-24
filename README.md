@@ -8,7 +8,7 @@ Calvin Dell'Oro
 
 ## Discombobulated Space Station - DSS
 
-- [Pages](https://calvindo.github.io/PRIMA)
+- [Pages](https://calvindo.github.io/PRIMA/)
 
 - [Designdokument](https://jirkadelloro.github.io/Prima/)
 
