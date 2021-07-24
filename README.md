@@ -16,3 +16,11 @@ Calvin Dell'Oro
 
 - [Zip](https://jirkadelloro.github.io/Prima/)
 
+## Loka
+1. download zip or clone repository via HTTPS/SSH
+2. run console command: "npm update"
+3. open repository via vs code
+4. go to the html file and comment in the out commented 
+5. run live server via vs code
+6. follow the instructions in game
+
