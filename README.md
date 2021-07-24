@@ -12,7 +12,7 @@ Calvin Dell'Oro
 
 - [Designdokument](https://calvindo.github.io/PRIMA/blob/main/Designdokument.pdf)
 
-- [Scripts & Ressourcen](https://calvindo.github.io/PRIMA/)
+- [Scripts & Ressourcen](https://calvindo.github.io/PRIMA/tree/main/Endabgabe/)
 
 - [Zip](https://calvindo.github.io/PRIMA/)
 
