@@ -26,7 +26,7 @@ var Endabgabe;
         static rotationAxis;
         static rotator;
         static rotateSound = new ƒ.Audio("/PRIMA/Endabgabe/Audio/rotate.wav");
-        static backgroundSound = new ƒ.Audio("/PRIMA/Endabgabe/Audio/background.wav");
+        static backgroundSound = new ƒ.Audio("/PRIMA/Endabgabe/Audio/background.mp3");
         static winSound = new ƒ.Audio("/PRIMA/Endabgabe/Audio/win.mp3");
         static cmpRotateSound = new ƒ.ComponentAudio(Main.rotateSound);
         static cmpBackgroundSound = new ƒ.ComponentAudio(Main.backgroundSound);
