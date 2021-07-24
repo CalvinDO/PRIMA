@@ -103,7 +103,7 @@ namespace Endabgabe {
             //ƒ.Physics.settings.debugDraw = true;
 
             Main.cmpBackgroundSound.play(true);
-
+            console.log(Main.cmpBackgroundSound);
 
             ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, Main.update);
             ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 60);
