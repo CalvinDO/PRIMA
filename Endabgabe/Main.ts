@@ -96,7 +96,7 @@ namespace Endabgabe {
             Main.viewport = new ƒ.Viewport();
             Main.viewport.initialize("InteractiveViewport", Main.root, Main.cmpCamera, canvas);
 
-            canvas.addEventListener("mousedown", function () { canvas.requestPointerLock; });
+            canvas.addEventListener("mousedown", canvas.requestPointerLock);
             canvas.addEventListener("mouseup", function (_event: MouseEvent) { if (_event.button == 1) { document.exitPointerLock(); } });
 
             console.log(Main.avatarRb.gravityScale);
