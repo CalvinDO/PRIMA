@@ -57,6 +57,7 @@ namespace Endabgabe {
 
         public static hardcoreToggle: HTMLInputElement;
 
+        public static framesSinceStart: number = 0;
 
         public static async init(): Promise<void> {
             Main.hardcoreToggle = document.querySelector("#hardcoreMode input");
@@ -95,9 +96,10 @@ namespace Endabgabe {
             Main.viewport = new ƒ.Viewport();
             Main.viewport.initialize("InteractiveViewport", Main.root, Main.cmpCamera, canvas);
 
-            canvas.addEventListener("mousedown", canvas.requestPointerLock);
+            canvas.addEventListener("mousedown", function () { canvas.requestPointerLock; });
             canvas.addEventListener("mouseup", function (_event: MouseEvent) { if (_event.button == 1) { document.exitPointerLock(); } });
 
+            console.log(Main.avatarRb.gravityScale);
 
             //ƒ.Physics.settings.debugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
             //ƒ.Physics.settings.debugDraw = true;
@@ -183,6 +185,12 @@ namespace Endabgabe {
             }
 
             Main.viewport.draw();
+
+            if (Main.framesSinceStart > 15) {
+                Main.avatarRb.gravityScale = 1;
+            }
+
+            Main.framesSinceStart++;
         }
 
         private static playerIsGroundedRaycast(): void {
@@ -460,6 +468,7 @@ namespace Endabgabe {
             Main.avatarRb.restitution = 0.1;
             Main.avatarRb.rotationInfluenceFactor = ƒ.Vector3.ZERO();
             Main.avatarRb.friction = 0.1;
+            Main.avatarRb.gravityScale = 0;
 
             Main.avatar = new ƒ.Node("Avatar");
             Main.avatar.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(0))));

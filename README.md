@@ -20,8 +20,8 @@ Calvin Dell'Oro
 1. Repository mit HTTPS/SSH clonen oder die Zip herunterladen
 3. Repository in VSC Öffnen
 4. Bei allen Ressourcen Links (Script, dae, audio, json, css, usw.) die root /PRIMA/ entfernen
-5. Auf der HTML seite 
-6. follow the instructions in game
+5. Auf der HTML Seite den Live Server starten
+6. In den Canvas klicken
 
 
 ## Interaktionsanleitung
