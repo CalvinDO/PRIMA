@@ -56,7 +56,7 @@ var Endabgabe;
             window.addEventListener("mousemove", Main.onMouseMove);
             Main.viewport = new ƒ.Viewport();
             Main.viewport.initialize("InteractiveViewport", Main.root, Main.cmpCamera, canvas);
-            canvas.addEventListener("mousedown", function () { canvas.requestPointerLock; });
+            canvas.addEventListener("mousedown", canvas.requestPointerLock);
             canvas.addEventListener("mouseup", function (_event) { if (_event.button == 1) {
                 document.exitPointerLock();
             } });
